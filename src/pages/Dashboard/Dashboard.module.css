@@ -7,7 +7,6 @@
   gap: 2rem;
   margin: 1rem auto;
   border-radius: 16px;
-  font-family: 'Vazirmatn', sans-serif;
   background-color: var(--neutral-white);
   color: var(--neutral-dark-1);
 }
