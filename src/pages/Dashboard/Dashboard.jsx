@@ -4,7 +4,6 @@ import styles from './Dashboard.module.css';
 import DoughnutChart from './components/DoughnutChart/DoughnutChart.jsx';
 import BarChart from './components/BarChart/BarChart.jsx';
 import LineChart from './components/LineChart/LineChart.jsx';
-import { numberToPersian, dateConvert } from '/src/utils/formatters';
 
 function Dashboard() {
   const { state: data } = useContext(TransactionContext);
@@ -30,7 +29,7 @@ function Dashboard() {
   // Line chart data
   const lineChartData = useMemo(() => {
     const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const labels = sortedData.map(item => dateConvert(item.date));
+    const labels = sortedData.map(item => item.date);
     const incomeLine = sortedData.map(item => (item.type === 'income' ? item.amount : 0));
     const expenseLine = sortedData.map(item => (item.type === 'expense' ? item.amount : 0));
     return { labels, incomeLine, expenseLine };
@@ -44,15 +43,15 @@ function Dashboard() {
       <div className={styles.summary__cards}>
         <div className={styles.card}>
           <span>مجموع درآمد</span>
-          <p className={styles.income}>{numberToPersian(totals.incomeTotal)}</p>
+          <p className={styles.income}>{totals.incomeTotal}</p>
         </div>
         <div className={styles.card}>
           <span>مجموع هزینه</span>
-          <p className={styles.expense}>{numberToPersian(totals.expenseTotal)}</p>
+          <p className={styles.expense}>{totals.expenseTotal}</p>
         </div>
         <div className={styles.card}>
           <span>تراز</span>
-          <p className={styles.balance}>{numberToPersian(totals.balance)}</p>
+          <p className={styles.balance}>{totals.balance}</p>
         </div>
       </div>
 

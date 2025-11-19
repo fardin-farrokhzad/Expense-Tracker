@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styles from './TransactionList.module.css';
 import DeleteIcon from '/src/assets/svg/outline/delete.svg?react';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
-import { numberToPersian, dateConvert } from '/src/utils/formatters';
 
 function TransactionList() {
   const { state: data, dispatch } = useContext(TransactionContext);
@@ -27,20 +26,20 @@ function TransactionList() {
           <div className={styles.transaction} key={item.id}>
             {/* Date */}
             <div className={`${styles.transaction__item} ${styles.date}`}>
-              <span>{dateConvert(item.date)}</span>
+              <span>{item.date}</span>
             </div>
 
             {/* Income */}
             <div className={styles.transaction__item}>
               <span className={`${styles.income} ${item.type === 'income' ? styles.hasValue : ''}`}>
-                {item.type === 'income' ? `${numberToPersian(item.amount)}+` : ''}
+                {item.type === 'income' ? `${item.amount}+` : ''}
               </span>
             </div>
 
             {/* Expense */}
             <div className={styles.transaction__item}>
               <span className={`${styles.expense} ${item.type === 'expense' ? styles.hasValue : ''}`}>
-                {item.type === 'expense' ? `${numberToPersian(item.amount)}-` : ''}
+                {item.type === 'expense' ? `${item.amount}-` : ''}
               </span>
             </div>
 
