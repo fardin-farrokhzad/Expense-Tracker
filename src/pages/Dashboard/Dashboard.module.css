@@ -128,12 +128,11 @@
 }
 
 .table__section {
-  flex: 1;
+  flex: 1 1 300px;
   background-color: var(--neutral-soft-grey-3);
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px;
-  min-width: 380px;
 }
 
 .table__section h2 {
