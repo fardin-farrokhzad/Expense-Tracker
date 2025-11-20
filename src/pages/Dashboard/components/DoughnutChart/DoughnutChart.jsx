@@ -1,6 +1,5 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { numberToPersian } from '/src/utils/formatters';
 
 function DoughnutChart({ incomeTotal, expenseTotal }) {
   const data = [
@@ -10,13 +9,20 @@ function DoughnutChart({ incomeTotal, expenseTotal }) {
 
   const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, index }) => {
     const RADIAN = Math.PI / 180;
-    const radius = outerRadius + 25;
+    const radius = outerRadius + 15;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text x={x} y={y} fill='#444' textAnchor={x > cx ? 'start' : 'end'} dominantBaseline='central' style={{ fontSize: '12px' }}>
-        {`${data[index].name}: ${numberToPersian(data[index].value)}`}
+      <text
+        x={x}
+        y={y}
+        fill='#444'
+        textAnchor={x > cx ? 'start' : 'end'}
+        dominantBaseline='central'
+        style={{ fontSize: '11px' }}
+      >
+        {`${data[index].name}: ${data[index].value}`}
       </text>
     );
   };
@@ -25,12 +31,19 @@ function DoughnutChart({ incomeTotal, expenseTotal }) {
     <div style={{ width: '100%', height: 260 }}>
       <ResponsiveContainer width='100%' height='100%'>
         <PieChart>
-          <Pie data={data} dataKey='value' innerRadius={60} outerRadius={90} paddingAngle={5} label={renderCustomizedLabel} labelLine={false}>
-            {/* Assign colors directly */}
+          <Pie
+            data={data}
+            dataKey='value'
+            innerRadius={40}
+            outerRadius={60}
+            paddingAngle={5}
+            label={renderCustomizedLabel}
+            labelLine={false}
+          >
             <Cell key='income' fill='#3ebd93' />
             <Cell key='expense' fill='#ef4e4e' />
           </Pie>
-          <Tooltip contentStyle={{ fontSize: '12px' }} formatter={value => numberToPersian(value)} />
+          <Tooltip contentStyle={{ fontSize: '11px' }} />
         </PieChart>
       </ResponsiveContainer>
     </div>
