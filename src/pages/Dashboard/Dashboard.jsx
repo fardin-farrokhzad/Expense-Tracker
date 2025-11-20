@@ -8,32 +8,101 @@ import LineChart from './components/LineChart/LineChart.jsx';
 function Dashboard() {
   const { state: data } = useContext(TransactionContext);
 
-  // Total calculations
-  const totals = useMemo(() => {
-    const incomeTotal = data.filter(item => item.type === 'income').reduce((acc, item) => acc + item.amount, 0);
-    const expenseTotal = data.filter(item => item.type === 'expense').reduce((acc, item) => acc + item.amount, 0);
-    const balance = incomeTotal - expenseTotal;
-    return { incomeTotal, expenseTotal, balance };
+  const { totals, monthlyTotals, lastMonthSummary, chartData } = useMemo(() => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    // Last month
+    const lastMonthDate = new Date(now);
+    lastMonthDate.setMonth(currentMonth - 1);
+    const lastYear = lastMonthDate.getFullYear();
+    const lastMonth = lastMonthDate.getMonth();
+
+    // Accumulators
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let currentMonthIncome = 0;
+    let currentMonthExpense = 0;
+    let lastMonthIncome = 0;
+    let lastMonthExpense = 0;
+
+    const monthlySummary = {};
+
+    data.forEach(item => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+      const monthIndex = date.getMonth();
+      const monthKey = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+
+      // Initialize month
+      if (!monthlySummary[monthKey]) {
+        monthlySummary[monthKey] = {
+          monthYear: monthKey,
+          درآمد: 0,
+          هزینه: 0,
+        };
+      }
+
+      const amount = item.amount;
+
+      if (item.type === 'income') {
+        totalIncome += amount;
+        monthlySummary[monthKey].درآمد += amount;
+
+        // Current month
+        if (year === currentYear && monthIndex === currentMonth) {
+          currentMonthIncome += amount;
+        }
+
+        // Last month
+        if (year === lastYear && monthIndex === lastMonth) {
+          lastMonthIncome += amount;
+        }
+      } else if (item.type === 'expense') {
+        totalExpense += amount;
+        monthlySummary[monthKey].هزینه += amount;
+
+        if (year === currentYear && monthIndex === currentMonth) {
+          currentMonthExpense += amount;
+        }
+
+        if (year === lastYear && monthIndex === lastMonth) {
+          lastMonthExpense += amount;
+        }
+      }
+    });
+
+    // Sort months
+    const chartData = Object.values(monthlySummary).sort((a, b) =>
+      a.monthYear.localeCompare(b.monthYear)
+    );
+
+    const totalBalance = totalIncome - totalExpense;
+    const lastMonthBalance = lastMonthIncome - lastMonthExpense;
+
+    return {
+      totals: {
+        incomeTotal: totalIncome,
+        expenseTotal: totalExpense,
+        balance: totalBalance,
+      },
+      monthlyTotals: {
+        income: currentMonthIncome,
+        expense: currentMonthExpense,
+      },
+      lastMonthSummary: {
+        income: lastMonthIncome,
+        expense: lastMonthExpense,
+        balance: lastMonthBalance,
+      },
+      chartData,
+    };
   }, [data]);
 
-  // Monthly totals
-  const currentMonth = new Date().getMonth();
-  const monthlyData = useMemo(() => data.filter(item => new Date(item.date).getMonth() === currentMonth), [data]);
-
-  const monthlyTotals = useMemo(() => {
-    const income = monthlyData.filter(item => item.type === 'income').reduce((acc, item) => acc + item.amount, 0);
-    const expense = monthlyData.filter(item => item.type === 'expense').reduce((acc, item) => acc + item.amount, 0);
-    return { income, expense };
-  }, [monthlyData]);
-
-  // Line chart data
-  const lineChartData = useMemo(() => {
-    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const labels = sortedData.map(item => item.date);
-    const incomeLine = sortedData.map(item => (item.type === 'income' ? item.amount : 0));
-    const expenseLine = sortedData.map(item => (item.type === 'expense' ? item.amount : 0));
-    return { labels, incomeLine, expenseLine };
-  }, [data]);
+  // Helper for dynamic balance class
+  const getBalanceClass = value =>
+    value >= 0 ? styles.balance : styles.balance__negative;
 
   return (
     <div className={styles.container}>
@@ -51,28 +120,102 @@ function Dashboard() {
         </div>
         <div className={styles.card}>
           <span>تراز</span>
-          <p className={styles.balance}>{totals.balance}</p>
+          <p className={getBalanceClass(totals.balance)}>{totals.balance}</p>
         </div>
       </div>
 
-      {/* Charts */}
+      {/* Charts & Tables */}
       {data.length > 0 ? (
-        <div className={styles.charts}>
-          <div className={`${styles.chart__wrapper} ${styles.bar}`}>
-            <span>درآمد و هزینه ماه جاری</span>
-            <BarChart monthlyIncome={monthlyTotals.income} monthlyExpense={monthlyTotals.expense} />
+        <>
+          {/* Summary Tables */}
+          <div className={styles.summary__tables}>
+            <div className={styles.table__section}>
+              <h2>خلاصه تراکنش‌ها (همه)</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th className={styles.type}>نوع</th>
+                    <th className={styles.amount}>مقدار</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>درآمد</td>
+                    <td className={styles.income}>
+                      {totals.incomeTotal} تومان
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>هزینه</td>
+                    <td className={styles.expense}>
+                      {totals.expenseTotal} تومان
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>تراز</td>
+                    <td className={getBalanceClass(totals.balance)}>
+                      {totals.balance} تومان
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className={styles.table__section}>
+              <h2>خلاصه تراکنش‌ها (ماه گذشته)</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th className={styles.type}>نوع</th>
+                    <th className={styles.amount}>مقدار</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>درآمد</td>
+                    <td className={styles.income}>
+                      {lastMonthSummary.income} تومان
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>هزینه</td>
+                    <td className={styles.expense}>
+                      {lastMonthSummary.expense} تومان
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>تراز</td>
+                    <td className={getBalanceClass(lastMonthSummary.balance)}>
+                      {lastMonthSummary.balance} تومان
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div className={`${styles.chart__wrapper} ${styles.line}`}>
-            <span>روند درآمد و هزینه</span>
-            <LineChart labels={lineChartData.labels} incomeData={lineChartData.incomeLine} expenseData={lineChartData.expenseLine} />
-          </div>
+          <div className={styles.charts}>
+            <div className={`${styles.chart__wrapper} ${styles.bar}`}>
+              <span>درآمد و هزینه (ماه جاری)</span>
+              <BarChart
+                monthlyIncome={monthlyTotals.income}
+                monthlyExpense={monthlyTotals.expense}
+              />
+            </div>
+            <div className={`${styles.chart__wrapper} ${styles.doughnut}`}>
+              <span>هزینه و درآمد (کل)</span>
+              <DoughnutChart
+                incomeTotal={totals.incomeTotal}
+                expenseTotal={totals.expenseTotal}
+              />
+            </div>
 
-          <div className={`${styles.chart__wrapper} ${styles.doughnut}`}>
-            <span>درآمد vs هزینه کل</span>
-            <DoughnutChart incomeTotal={totals.incomeTotal} expenseTotal={totals.expenseTotal} />
+            <div className={`${styles.chart__wrapper} ${styles.line}`}>
+              <span>روند درآمد و هزینه (ماهانه)</span>
+              <LineChart data={chartData} />
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <p className={styles.no__data}>هیچ داده‌ای موجود نیست</p>
       )}
