@@ -1,18 +1,23 @@
+/* Global container */
 .container {
   direction: rtl;
   width: 90%;
-  padding: 3rem;
+  max-width: 1200px; /* Added max-width for larger screens */
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin: 1rem auto;
+  margin: 2rem 0;
   border-radius: 16px;
   background-color: var(--neutral-white);
   color: var(--neutral-dark-1);
 }
-
+.container h1 {
+  padding-right: 3rem;
+}
 /* Summary Cards */
 .summary__cards {
+  margin: 1rem;
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
@@ -21,8 +26,8 @@
 
 .card {
   background: var(--neutral-soft-grey-3);
-  border-radius: 1rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px;
+  border-radius: 16px;
+  box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);
   padding: 1.5rem 2rem;
   flex: 1 1 220px;
   max-width: 350px;
@@ -34,7 +39,7 @@
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: rgba(100, 100, 111, 0.28) 0 10px 32px;
+  box-shadow: 0 10px 32px rgba(100, 100, 111, 0.28);
 }
 
 .card span {
@@ -53,13 +58,21 @@
 .income {
   color: var(--system-green);
 }
+
 .expense {
   color: var(--system-red);
 }
+
 .balance {
-  color: var(--system-yellow);
+  color: var(--system-green);
+  direction: ltr;
 }
-/* Charts */
+.balance__negative {
+  color: var(--system-red);
+  direction: ltr;
+}
+
+/* Charts section */
 .charts {
   display: flex;
   justify-content: center;
@@ -69,22 +82,27 @@
 
 .chart__wrapper {
   background: var(--neutral-soft-grey-3);
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);
   padding: 1.5rem;
-  border-radius: 1rem;
-  min-height: 300px;
+  border-radius: 16px;
+  min-height: 100px;
   width: 100%;
+  direction: ltr;
+  text-align: center;
 }
 
 .chart__wrapper.line {
   max-width: 650px;
 }
+
 .chart__wrapper.doughnut {
-  max-width: 360px;
+  max-width: 400px;
 }
+
 .chart__wrapper.bar {
   max-width: 400px;
 }
+
 .chart__wrapper span {
   color: var(--neutral-dark-2);
   font-size: 1.1rem;
@@ -93,13 +111,72 @@
   font-weight: 600;
 }
 
+/* No data message */
 .no__data {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-/* Responsive */
+/* Summary Tables Section */
+.summary__tables {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 1rem;
+  flex-wrap: wrap;
+}
+
+.table__section {
+  flex: 1;
+  background-color: var(--neutral-soft-grey-3);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px;
+  min-width: 380px;
+}
+
+.table__section h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  text-align: center;
+  padding: 0.8rem;
+  border: 1px solid var(--neutral-light-grey);
+}
+
+table th {
+  background-color: var(--neutral-soft-grey-2);
+  font-weight: 600;
+}
+
+table td {
+  direction: ltr;
+  font-size: 1rem;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+table th.amount {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+table th.type {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 14px;
+}
+/* Responsive Design */
 @media (max-width: 1024px) {
   .charts {
     flex-direction: column;
@@ -117,8 +194,9 @@
     gap: 1.5rem;
   }
 
-  h1 {
+  .container h1 {
     text-align: center;
+    padding-right: 0;
   }
 
   .card {
