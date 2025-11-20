@@ -61,7 +61,6 @@
 }
 
 .input {
-  font-family: 'Vazirmatn';
   padding: 8px;
   border: 1px solid var(--neutral-soft-grey-1);
   border-radius: 6px;
@@ -152,6 +151,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border-radius: 8px;
   border: 1px solid var(--system-red);
   animation: errorPop 0.4s ease-out;
+}
+
+input[type='date']:required:invalid::-webkit-datetime-edit {
+  color: transparent;
+}
+input[type='date']:focus::-webkit-datetime-edit {
+  color: black !important;
 }
 
 @keyframes errorPop {
