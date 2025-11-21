@@ -23,13 +23,17 @@ function AddTransactionModal({ isOpen, onClose }) {
 
     if (!amount) return showError('مبلغ را وارد کنید.');
     const numericAmount = Number(amount);
-    if (numericAmount <= 0) return showError('مبلغ تراکنش باید عددی مثبت باشد.');
-    if (numericAmount >= 10000000000000) return showError('مبلغ باید کم‌تر از ۱۰,۰۰۰,۰۰۰,۰۰۰,۰۰۰ باشد.');
+    if (numericAmount <= 0)
+      return showError('مبلغ تراکنش باید عددی مثبت باشد.');
+    if (numericAmount >= 10000000000000)
+      return showError('مبلغ باید کم‌تر از ۱۰,۰۰۰,۰۰۰,۰۰۰,۰۰۰ باشد.');
 
-    if (!['income', 'expense'].includes(type)) return showError('نوع تراکنش نامعتبر است.');
+    if (!['income', 'expense'].includes(type))
+      return showError('نوع تراکنش نامعتبر است.');
 
     if (!description) return showError('شرح تراکنش نمی‌تواند خالی باشد.');
-    if (description.length > 30) return showError('شرح نباید بیشتر از ۳۰ کاراکتر باشد.');
+    if (description.length > 30)
+      return showError('شرح نباید بیشتر از ۳۰ کاراکتر باشد.');
 
     // Add transaction
     dispatch({
@@ -52,17 +56,27 @@ function AddTransactionModal({ isOpen, onClose }) {
 
         <form className={styles.form} action={handleFormAction}>
           {/* Date */}
-          <label className={styles.label}>
+          <label className={`${styles.label} ${styles.date}`}>
             تاریخ
-            <div className={`${styles.input__wrapper} ${styles.date}`}>
-              <input type='date' name='date' className={styles.input} required />
+            <div className={styles.input__wrapper}>
+              <input
+                type='date'
+                name='date'
+                className={styles.input}
+                required
+              />
             </div>
           </label>
 
           {/* Amount */}
           <label className={styles.label}>
             مبلغ (تومان)
-            <input type='number' name='amount' className={styles.input} required />
+            <input
+              type='number'
+              name='amount'
+              className={styles.input}
+              required
+            />
           </label>
 
           {/* Type */}
@@ -70,7 +84,8 @@ function AddTransactionModal({ isOpen, onClose }) {
             نوع تراکنش
             <div className={styles.radio__group}>
               <label>
-                <input type='radio' name='type' value='income' defaultChecked /> درآمد
+                <input type='radio' name='type' value='income' defaultChecked />{' '}
+                درآمد
               </label>
               <label>
                 <input type='radio' name='type' value='expense' /> هزینه
@@ -81,14 +96,23 @@ function AddTransactionModal({ isOpen, onClose }) {
           {/* Description */}
           <label className={styles.label}>
             شرح
-            <input type='text' name='description' className={styles.input} required />
+            <input
+              type='text'
+              name='description'
+              className={styles.input}
+              required
+            />
           </label>
           {/* Error message */}
           {error && <p className={styles.error}>{error}</p>}
 
           {/* Footer Buttons */}
           <div className={styles.footer}>
-            <button type='button' className={styles.cancel__button} onClick={onClose}>
+            <button
+              type='button'
+              className={styles.cancel__button}
+              onClick={onClose}
+            >
               انصراف
             </button>
             <button type='submit' className={styles.submit__button}>
