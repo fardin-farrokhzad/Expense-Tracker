@@ -39,6 +39,7 @@ button {
   font-family:
     Vazir FD,
     sans-serif;
+  border: none;
 }
 input[type='text'],
 input[type='number'],
