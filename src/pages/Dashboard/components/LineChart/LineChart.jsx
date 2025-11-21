@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   LineChart as RLineChart,
   Line,
@@ -9,7 +8,6 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts';
-import { numberToPersian } from '/src/utils/formatters';
 
 function LineChart({ data }) {
   // Validate the data for NaN values before rendering
@@ -37,12 +35,8 @@ function LineChart({ data }) {
           axisLine={false}
           tickLine={false}
           width={40}
-          tickFormatter={value => numberToPersian(value)}
         />
-        <Tooltip
-          contentStyle={{ fontSize: '12px' }}
-          formatter={value => numberToPersian(value)}
-        />
+        <Tooltip contentStyle={{ fontSize: '12px' }} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         <Line
           type='monotone'
