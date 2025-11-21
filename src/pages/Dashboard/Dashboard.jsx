@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import styles from './Dashboard.module.css';
 import DoughnutChart from './components/DoughnutChart/DoughnutChart.jsx';
@@ -110,17 +110,17 @@ function Dashboard() {
 
       {/* Summary Cards */}
       <div className={styles.summary__cards}>
-        <div className={styles.card}>
+        <div className={`${styles.card} ${styles.card__income}`}>
           <span>مجموع درآمد</span>
           <p className={styles.income}>{totals.incomeTotal}</p>
         </div>
-        <div className={styles.card}>
+        <div className={`${styles.card} ${styles.card__expense}`}>
           <span>مجموع هزینه</span>
           <p className={styles.expense}>{totals.expenseTotal}</p>
         </div>
-        <div className={styles.card}>
+        <div className={`${styles.card} ${getBalanceClass(totals.balance)}`}>
           <span>تراز</span>
-          <p className={getBalanceClass(totals.balance)}>{totals.balance}</p>
+          <p>{totals.balance}</p>
         </div>
       </div>
 

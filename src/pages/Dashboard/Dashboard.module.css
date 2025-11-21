@@ -2,7 +2,7 @@
 .container {
   direction: rtl;
   width: 90%;
-  max-width: 1200px; /* Added max-width for larger screens */
+  max-width: 1800px;
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
@@ -21,13 +21,13 @@
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .card {
-  background: var(--neutral-soft-grey-3);
+  background: var(--neutral-white);
   border-radius: 16px;
-  box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   padding: 1.5rem 2rem;
   flex: 1 1 220px;
   max-width: 350px;
@@ -36,7 +36,12 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
-
+.card__income {
+  border-bottom: 6px solid var(--system-green);
+}
+.card__expense {
+  border-bottom: 6px solid var(--system-red);
+}
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 32px rgba(100, 100, 111, 0.28);
@@ -71,6 +76,12 @@
   color: var(--system-red);
   direction: ltr;
 }
+.balance {
+  border-bottom: 6px solid var(--system-green);
+}
+.balance__negative {
+  border-bottom: 6px solid var(--system-red);
+}
 
 /* Charts section */
 .charts {
@@ -81,8 +92,8 @@
 }
 
 .chart__wrapper {
-  background: var(--neutral-soft-grey-3);
-  box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);
+  background: var(--neutral-white);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   padding: 1.5rem;
   border-radius: 16px;
   min-height: 100px;
@@ -128,12 +139,11 @@
 }
 
 .table__section {
-  flex: 1;
-  background-color: var(--neutral-soft-grey-3);
+  flex: 1 1 300px;
+  background-color: var(--neutral-white);
   padding: 1.5rem;
   border-radius: 16px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px;
-  min-width: 380px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
 .table__section h2 {
