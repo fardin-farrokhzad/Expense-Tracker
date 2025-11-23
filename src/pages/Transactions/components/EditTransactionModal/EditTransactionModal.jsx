@@ -3,14 +3,10 @@ import styles from './EditTransactionModal.module.css';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import TransactionForm from '../TransactionForm/TransactionForm';
 
-/**
-  EditTransactionModal – modal wrapper for editing an existing transaction.
-  Reuses TransactionForm with pre-filled values and dispatches EDIT_TRANSACTION on submit.
- */
 function EditTransactionModal({ isOpen, onClose, transaction }) {
   const { dispatch } = useContext(TransactionContext);
 
-  // Called when form is valid → updates transaction and closes modal
+  // Called when form is valid
   const handleValidSubmit = updatedData => {
     dispatch({
       type: 'EDIT_TRANSACTION',

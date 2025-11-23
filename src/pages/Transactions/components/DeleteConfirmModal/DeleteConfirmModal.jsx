@@ -2,8 +2,6 @@ import { useContext } from 'react';
 import styles from './DeleteConfirmModal.module.css';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 
-//  DeleteConfirmModal – confirmation dialog for deleting a transaction
-
 function DeleteConfirmModal({ isOpen, onClose, id }) {
   const { dispatch } = useContext(TransactionContext);
 

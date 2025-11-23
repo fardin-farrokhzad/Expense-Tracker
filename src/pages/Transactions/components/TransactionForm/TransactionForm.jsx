@@ -2,10 +2,6 @@ import { useState } from 'react';
 import styles from './TransactionForm.module.css';
 import { validateTransaction } from '/src/utils/validateTransaction.js';
 
-/**
-  TransactionForm – reusable form used in both Add and Edit modals.
-  Handles validation, displays errors, and calls onValidSubmit with cleaned data.
- */
 export default function TransactionForm({
   defaultValues = {},
   headerTitle = 'افزودن تراکنش',
@@ -15,14 +11,15 @@ export default function TransactionForm({
 }) {
   const [error, setError] = useState('');
 
-  // Form submit handler – validates data before calling parent callback
+  // Form submit handler
   function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    // validateTransaction returns cleaned data or false + sets error via setError
+    // validateTransaction returns cleaned data or false
+    //  sets error via setError
     const validated = validateTransaction(data, setError);
     if (!validated) return;
 

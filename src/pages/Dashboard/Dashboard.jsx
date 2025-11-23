@@ -8,11 +8,6 @@ import BarChart from './components/BarChart/BarChart.jsx';
 import LineChart from './components/LineChart/LineChart.jsx';
 import SummaryTables from './components/SummaryTables/SummaryTables.jsx';
 
-/*
-  Dashboard – main overview page.
-  Shows summary cards, tables, and three charts (Bar, Doughnut, Line).
-  All heavy calculations are memoized with useMemo.
- */
 function Dashboard() {
   const { state: transactions } = useContext(TransactionContext);
 

@@ -12,10 +12,8 @@ import styles from './LineChart.module.css';
 
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-// LineChart – displays monthly income and expense trends over time.
-
 function LineChart({ data }) {
-  // Custom tooltip – shows month/year + formatted income/expense values with color
+  // Custom tooltip
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -37,7 +35,6 @@ function LineChart({ data }) {
     return null;
   };
 
-  // Custom Y-axis tick – splits numbers longer than 8 characters into two lines
   function CustomYAxisTick({ x, y, payload }) {
     const value = payload.value || 0;
     const text = formatNumber(value);
