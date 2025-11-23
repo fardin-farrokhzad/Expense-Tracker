@@ -1,4 +1,3 @@
-import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from './DoughnutChart.module.css';
 import { formatNumber } from '/src/utils/formatNumber.js';

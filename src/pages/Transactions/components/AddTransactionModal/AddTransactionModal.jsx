@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './AddTransactionModal.module.css';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import TransactionForm from '../TransactionForm/TransactionForm';
 
 /**
   AddTransactionModal – modal wrapper for adding a new transaction.
-  Reuses TransactionForm and dispatches ADD_TRANSACTION on valid submit.
+  Uses TransactionForm and dispatches ADD_TRANSACTION on valid submit.
  */
 function AddTransactionModal({ isOpen, onClose }) {
   const { dispatch } = useContext(TransactionContext);

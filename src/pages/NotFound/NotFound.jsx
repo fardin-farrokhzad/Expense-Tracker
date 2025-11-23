@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './NotFound.module.css';
 import Message from '/src/assets/svg/outline/notFound.svg?react';
 

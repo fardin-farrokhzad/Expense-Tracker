@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './TransactionForm.module.css';
 import { validateTransaction } from '/src/utils/validateTransaction.js';
 

@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './DeleteConfirmModal.module.css';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
+
+//  DeleteConfirmModal – confirmation dialog for deleting a transaction
 
 function DeleteConfirmModal({ isOpen, onClose, id }) {
   const { dispatch } = useContext(TransactionContext);
 
   if (!isOpen) return null;
 
+  // Delete transaction and close modal
   const handleDelete = () => {
     dispatch({ type: 'DELETE_TRANSACTION', payload: id });
     onClose();
@@ -21,10 +24,10 @@ function DeleteConfirmModal({ isOpen, onClose, id }) {
           <button className={styles.close} onClick={onClose}></button>
         </div>
 
-        {/* Message */}
+        {/* Confirmation message */}
         <p className={styles.message}>از حذف تراکنش اطمینان دارید؟</p>
 
-        {/* Footer */}
+        {/* Action buttons */}
         <div className={styles.footer}>
           <button className={styles.cancel} onClick={onClose}>
             انصراف
