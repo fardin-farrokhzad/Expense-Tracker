@@ -99,6 +99,9 @@
   width: 24px;
   height: 24px;
 }
+span {
+  word-break: break-all;
+}
 
 @media (max-width: 790px) {
   .desktop__only {
