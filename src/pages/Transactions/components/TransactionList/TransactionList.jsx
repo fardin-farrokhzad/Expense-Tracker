@@ -6,6 +6,7 @@ import MoreIcon from '/src/assets/svg/outline/more.svg?react';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import EditTransactionModal from '../EditTransactionModal/EditTransactionModal';
+import { formatNumber } from '/src/utils/formatNumber.js';
 
 function TransactionList() {
   const { state: data } = useContext(TransactionContext);
@@ -59,7 +60,7 @@ function TransactionList() {
               <span
                 className={`${styles.income} ${item.type === 'income' ? styles.hasValue : ''}`}
               >
-                {item.type === 'income' ? `${item.amount}+` : ''}
+                {item.type === 'income' ? `${formatNumber(item.amount)}+` : ''}
               </span>
             </div>
 
@@ -67,7 +68,7 @@ function TransactionList() {
               <span
                 className={`${styles.expense} ${item.type === 'expense' ? styles.hasValue : ''}`}
               >
-                {item.type === 'expense' ? `${item.amount}-` : ''}
+                {item.type === 'expense' ? `${formatNumber(item.amount)}-` : ''}
               </span>
             </div>
 
