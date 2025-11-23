@@ -1,4 +1,3 @@
-// src/utils/balanceClassHelper.js
 import styles from '../styles/utils.module.css';
 
 export function balanceClassHelper(value) {
