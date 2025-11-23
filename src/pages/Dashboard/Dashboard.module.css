@@ -58,6 +58,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
+  word-break: break-all;
 }
 
 .income {
@@ -129,63 +130,6 @@
   font-weight: 700;
 }
 
-/* Summary Tables Section */
-.summary__tables {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  margin: 1rem;
-  flex-wrap: wrap;
-}
-
-.table__section {
-  flex: 1 1 300px;
-  background-color: var(--neutral-white);
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-}
-
-.table__section h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table th,
-table td {
-  text-align: center;
-  padding: 0.8rem;
-  border: 1px solid var(--neutral-light-grey);
-}
-
-table th {
-  background-color: var(--neutral-soft-grey-2);
-  font-weight: 600;
-}
-
-table td {
-  direction: ltr;
-  font-size: 1rem;
-}
-
-table tr:last-child td {
-  border-bottom: none;
-}
-table th.amount {
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-}
-table th.type {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 14px;
-}
 /* Responsive Design */
 @media (max-width: 1024px) {
   .charts {
