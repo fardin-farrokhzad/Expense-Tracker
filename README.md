@@ -21,3 +21,23 @@ The focus of this project is on clean architecture, maintainable code, and pract
 - **React Router**
 - **ESLint** and **Prettier**
 
+  
+## Getting Started
+
+### Prerequisites
+- Node.js 
+- npm
+
+### Installation & Running the App
+
+# 1. Clone the repository
+git clone https://github.com/fardin-farrokhzad/Expence-Tracker.git
+
+# 2. Go into the project folder
+cd Expense-Tracker
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the server
+npm run dev
