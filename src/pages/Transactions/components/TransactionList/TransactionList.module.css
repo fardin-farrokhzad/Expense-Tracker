@@ -1,7 +1,7 @@
 .transactions__header {
   display: grid;
   padding: 16px;
-  grid-template-columns: 1fr 1fr 1fr 1.5fr 34px; /* column for delete button */
+  grid-template-columns: 1fr 1fr 1fr 1.5fr 34px;
   font-weight: bold;
   color: var(--neutral-grey-1);
   border-bottom: 1px solid var(--primary-light);
@@ -10,7 +10,7 @@
 
 .transaction {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.5fr 37px; /* match header for delete button */
+  grid-template-columns: 1fr 1fr 1fr 1.5fr 37px;
   padding: 16px 8px;
   transition: background 0.5s ease;
   border-radius: 8px;
@@ -39,26 +39,68 @@
   max-width: 145px;
 }
 
-.deleteButton {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-}
-
-/* Changing the color of SVG icons */
-.delete {
-  fill: var(--neutral-grey-1);
-}
-
 /* Header visibility for desktop only */
 .desktop__only {
   display: grid;
+}
+
+.more__wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.more__button {
+  width: 26px;
+  height: 26px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 6px;
+  transition: 0.5s ease;
+}
+
+.more__button:hover {
+  background-color: var(--neutral-soft-grey-2);
+}
+
+.dropdown {
+  position: absolute;
+  bottom: 90%;
+  left: 50%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+  width: 113px;
+  height: 92px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.dropdown__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  text-align: right;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: 0.5s ease;
+  gap: 10px;
+}
+.dropdown__item:hover {
+  background-color: var(--neutral-soft-grey-2);
+}
+.delete__icon,
+.edit__icon {
+  width: 24px;
+  height: 24px;
+}
+span {
+  word-break: break-all;
 }
 
 @media (max-width: 790px) {
@@ -71,7 +113,7 @@
     grid-template-columns: 1fr auto; /* main content + delete button */
     grid-template-areas:
       'date price'
-      'description delete';
+      'description more';
     gap: 8px;
     padding: 14px 16px;
     background-color: var(--neutral-soft-grey-3);
@@ -97,23 +139,27 @@
   }
 
   .transaction__item:last-child {
-    grid-area: delete;
+    grid-area: more;
     justify-self: end;
     align-self: end;
   }
 
   /* Hide income div if no value */
-  .transaction > .transaction__item:nth-child(2):has(> span.income:not(.hasValue)) {
+  .transaction
+    > .transaction__item:nth-child(2):has(> span.income:not(.hasValue)) {
     display: none;
   }
 
   /* Hide expense div if no value */
-  .transaction > .transaction__item:nth-child(3):has(> span.expense:not(.hasValue)) {
+  .transaction
+    > .transaction__item:nth-child(3):has(> span.expense:not(.hasValue)) {
     display: none;
   }
 
   /* If both have values, prioritize income by hiding expense */
-  .transaction > .transaction__item:nth-child(2):has(> span.income.hasValue) + .transaction__item:nth-child(3) {
+  .transaction
+    > .transaction__item:nth-child(2):has(> span.income.hasValue)
+    + .transaction__item:nth-child(3) {
     display: none;
   }
 
