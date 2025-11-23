@@ -31,7 +31,7 @@ The focus of this project is on clean architecture, maintainable code, and pract
 ## Installation & Running the App
 
 ### 1. Clone the repository
-git clone https://github.com/fardin-farrokhzad/Expence-Tracker.git
+git clone https://github.com/fardin-farrokhzad/Expense-Tracker.git
 
 ### 2. Go into the project folder
 cd Expense-Tracker
