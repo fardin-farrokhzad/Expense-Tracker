@@ -5,10 +5,9 @@ import EditIcon from '/src/assets/svg/outline/edit.svg?react';
 import MoreIcon from '/src/assets/svg/outline/more.svg?react';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
-import EditTransactionModal from '../EditTransactionModal/EditTransactionModal';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-function TransactionList() {
+function TransactionList({ setModal }) {
   const { state: data } = useContext(TransactionContext);
 
   const [menuOpenId, setMenuOpenId] = useState(null);
@@ -16,11 +15,6 @@ function TransactionList() {
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     id: null,
-  });
-
-  const [editModal, setEditModal] = useState({
-    isOpen: false,
-    data: null,
   });
 
   const toggleMenu = id => {
@@ -33,13 +27,16 @@ function TransactionList() {
   };
 
   const openEditModal = item => {
-    setEditModal({ isOpen: true, data: item });
+    setModal({
+      isOpen: true,
+      mode: 'edit',
+      data: item,
+    });
     setMenuOpenId(null);
   };
 
   return (
     <>
-      {/* Table Header */}
       <div className={`${styles.transactions__header} ${styles.desktop__only}`}>
         <span>تاریخ</span>
         <span>درآمد (تومان)</span>
@@ -48,7 +45,6 @@ function TransactionList() {
         <span></span>
       </div>
 
-      {/* Transactions */}
       <div className={styles.transactions__list}>
         {data.map(item => (
           <div className={styles.transaction} key={item.id}>
@@ -58,7 +54,9 @@ function TransactionList() {
 
             <div className={styles.transaction__item}>
               <span
-                className={`${styles.income} ${item.type === 'income' ? styles.hasValue : ''}`}
+                className={`${styles.income} ${
+                  item.type === 'income' ? styles.hasValue : ''
+                }`}
               >
                 {item.type === 'income' ? `${formatNumber(item.amount)}+` : ''}
               </span>
@@ -66,7 +64,9 @@ function TransactionList() {
 
             <div className={styles.transaction__item}>
               <span
-                className={`${styles.expense} ${item.type === 'expense' ? styles.hasValue : ''}`}
+                className={`${styles.expense} ${
+                  item.type === 'expense' ? styles.hasValue : ''
+                }`}
               >
                 {item.type === 'expense' ? `${formatNumber(item.amount)}-` : ''}
               </span>
@@ -95,6 +95,7 @@ function TransactionList() {
                     >
                       <EditIcon className={styles.edit__icon} /> ویرایش
                     </button>
+
                     <button
                       className={`${styles.dropdown__item} ${styles.delete}`}
                       onClick={() => openDeleteModal(item.id)}
@@ -109,18 +110,10 @@ function TransactionList() {
         ))}
       </div>
 
-      {/* Delete Modal */}
       <DeleteConfirmModal
         isOpen={deleteModal.isOpen}
         onClose={() => setDeleteModal({ isOpen: false, id: null })}
         id={deleteModal.id}
-      />
-
-      {/* Edit Modal */}
-      <EditTransactionModal
-        isOpen={editModal.isOpen}
-        onClose={() => setEditModal({ isOpen: false, data: null })}
-        transaction={editModal.data}
       />
     </>
   );
