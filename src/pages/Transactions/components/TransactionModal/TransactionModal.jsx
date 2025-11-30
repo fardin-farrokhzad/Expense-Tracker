@@ -8,6 +8,7 @@ function TransactionModal({
   onClose,
   mode = 'add', // "add" or "edit"
   transaction = null, // for edit mode
+  action,
 }) {
   const { dispatch } = useContext(TransactionContext);
 
@@ -21,10 +22,7 @@ function TransactionModal({
     ? transaction
     : { date: '', amount: '', type: 'income', description: '' };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
+  const defaultAction = async formData => {
     const data = Object.fromEntries(formData.entries());
 
     const validated = validateTransaction(data, setError);
@@ -45,6 +43,16 @@ function TransactionModal({
     onClose();
   };
 
+  const handleSubmit = async formData => {
+    setError('');
+
+    if (action) {
+      await action(formData);
+    } else {
+      await defaultAction(formData);
+    }
+  };
+
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
@@ -61,7 +69,7 @@ function TransactionModal({
         </div>
 
         {/* Form */}
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} action={handleSubmit}>
           {/* Date */}
           <label className={`${styles.label} ${styles.date}`}>
             تاریخ
@@ -147,4 +155,5 @@ function TransactionModal({
     </div>
   );
 }
+
 export default TransactionModal;
