@@ -8,10 +8,9 @@ import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
 function TransactionList({ setModal }) {
-  const { state: data } = useContext(TransactionContext);
+  const { transactions, deleteTransaction } = useContext(TransactionContext);
 
   const [menuOpenId, setMenuOpenId] = useState(null);
-
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     id: null,
@@ -46,12 +45,11 @@ function TransactionList({ setModal }) {
       </div>
 
       <div className={styles.transactions__list}>
-        {data.map(item => (
+        {transactions.map(item => (
           <div className={styles.transaction} key={item.id}>
             <div className={`${styles.transaction__item} ${styles.date}`}>
               <span>{item.date}</span>
             </div>
-
             <div className={styles.transaction__item}>
               <span
                 className={`${styles.income} ${
@@ -61,7 +59,6 @@ function TransactionList({ setModal }) {
                 {item.type === 'income' ? `${formatNumber(item.amount)}+` : ''}
               </span>
             </div>
-
             <div className={styles.transaction__item}>
               <span
                 className={`${styles.expense} ${
@@ -71,13 +68,11 @@ function TransactionList({ setModal }) {
                 {item.type === 'expense' ? `${formatNumber(item.amount)}-` : ''}
               </span>
             </div>
-
             <div
               className={`${styles.transaction__item} ${styles.description}`}
             >
               <span>{item.description}</span>
             </div>
-
             <div className={styles.transaction__item}>
               <div className={styles.more__wrapper}>
                 <button
@@ -86,7 +81,6 @@ function TransactionList({ setModal }) {
                 >
                   <MoreIcon />
                 </button>
-
                 {menuOpenId === item.id && (
                   <div className={styles.dropdown}>
                     <button
@@ -95,7 +89,6 @@ function TransactionList({ setModal }) {
                     >
                       <EditIcon className={styles.edit__icon} /> ویرایش
                     </button>
-
                     <button
                       className={`${styles.dropdown__item} ${styles.delete}`}
                       onClick={() => openDeleteModal(item.id)}
