@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx",
     "fix": "eslint . --ext .js,.jsx --fix",
     "format": "prettier --write .",
-    "server": "json-server --watch src/constants/data.json --port 8000"
+    "server": "json-server --watch src/constants/db.json --port 3001"
   },
   "dependencies": {
     "react": "^19.1.1",
