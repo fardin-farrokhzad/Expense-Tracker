@@ -13,7 +13,8 @@ function Transactions() {
     data: null,
   });
 
-  const { state: data } = useContext(TransactionContext);
+  const { transactions, isLoading, error, refetch } =
+    useContext(TransactionContext);
 
   const openAddModal = () => {
     setModal({ isOpen: true, mode: 'add', data: null });
@@ -30,7 +31,19 @@ function Transactions() {
         </button>
       </div>
 
-      {data.length === 0 ? (
+      {isLoading ? (
+        <div className='loader__container'>
+          <div class='loader'></div>
+        </div>
+      ) : error ? (
+        <div className='error__container'>
+          <DangerCircleIcon className={styles.error__icon} />
+          <p className={styles.error__text}>{error}</p>
+          <button className={styles.retry__button} onClick={refetch}>
+            تلاش مجدد
+          </button>
+        </div>
+      ) : transactions.length === 0 ? (
         <div className={styles.no__data}>
           <DangerCircleIcon className={styles.no__data__icon} />
           <span>شما هنوز تراکنشی وارد نکرده‌اید</span>
