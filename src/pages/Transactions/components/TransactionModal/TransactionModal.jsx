@@ -6,15 +6,14 @@ import { validateTransaction } from '/src/utils/validateTransaction.js';
 function TransactionModal({
   isOpen,
   onClose,
-  mode = 'add', // "add" or "edit"
-  transaction = null, // for edit mode
-  action,
+  mode = 'add',
+  transaction = null,
 }) {
-  const { dispatch } = useContext(TransactionContext);
+  const { addTransaction, updateTransaction } = useContext(TransactionContext);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isEdit = mode === 'edit';
-
-  const [error, setError] = useState('');
 
   if (!isOpen) return null;
 
@@ -22,34 +21,31 @@ function TransactionModal({
     ? transaction
     : { date: '', amount: '', type: 'income', description: '' };
 
-  const defaultAction = async formData => {
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
     const validated = validateTransaction(data, setError);
-    if (!validated) return;
-
-    if (isEdit) {
-      dispatch({
-        type: 'EDIT_TRANSACTION',
-        payload: { id: transaction.id, updatedData: validated },
-      });
-    } else {
-      dispatch({
-        type: 'ADD_TRANSACTION',
-        payload: validated,
-      });
+    if (!validated) {
+      setIsSubmitting(false);
+      return;
     }
 
-    onClose();
-  };
-
-  const handleSubmit = async formData => {
-    setError('');
-
-    if (action) {
-      await action(formData);
-    } else {
-      await defaultAction(formData);
+    try {
+      if (isEdit) {
+        await updateTransaction({ ...validated, id: transaction.id });
+      } else {
+        await addTransaction(validated);
+      }
+      onClose(); // Only close on success
+    } catch (err) {
+      setError('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -63,13 +59,14 @@ function TransactionModal({
             type='button'
             className={styles.close__button}
             onClick={onClose}
+            disabled={isSubmitting}
           >
             <div className={styles.close}></div>
           </button>
         </div>
 
         {/* Form */}
-        <form className={styles.form} action={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           {/* Date */}
           <label className={`${styles.label} ${styles.date}`}>
             تاریخ
@@ -80,6 +77,7 @@ function TransactionModal({
                 className={styles.input}
                 defaultValue={defaultValues.date}
                 required
+                disabled={isSubmitting}
               />
             </div>
           </label>
@@ -93,6 +91,7 @@ function TransactionModal({
               className={styles.input}
               defaultValue={defaultValues.amount}
               required
+              disabled={isSubmitting}
             />
           </label>
 
@@ -106,6 +105,7 @@ function TransactionModal({
                   name='type'
                   value='income'
                   defaultChecked={defaultValues.type === 'income'}
+                  disabled={isSubmitting}
                 />{' '}
                 درآمد
               </label>
@@ -115,6 +115,7 @@ function TransactionModal({
                   name='type'
                   value='expense'
                   defaultChecked={defaultValues.type === 'expense'}
+                  disabled={isSubmitting}
                 />{' '}
                 هزینه
               </label>
@@ -131,11 +132,12 @@ function TransactionModal({
               className={styles.input}
               defaultValue={defaultValues.description}
               required
+              disabled={isSubmitting}
             />
           </label>
 
-          {/* Error */}
-          {error && <p className={styles.error}>{error}</p>}
+          {/* Validation & server errors */}
+          {error && <p className='modal__error'>{error}</p>}
 
           {/* Action buttons */}
           <div className={styles.footer}>
@@ -143,11 +145,22 @@ function TransactionModal({
               type='button'
               className={styles.cancel__button}
               onClick={onClose}
+              disabled={isSubmitting}
             >
               انصراف
             </button>
-            <button type='submit' className={styles.submit__button}>
-              {isEdit ? 'ذخیره تغییرات' : 'ثبت'}
+            <button
+              type='submit'
+              className={styles.submit__button}
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? isEdit
+                  ? 'در حال ذخیره...'
+                  : 'در حال ثبت...'
+                : isEdit
+                  ? 'ذخیره تغییرات'
+                  : 'ثبت'}
             </button>
           </div>
         </form>
