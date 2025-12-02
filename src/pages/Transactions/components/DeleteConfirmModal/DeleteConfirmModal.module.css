@@ -15,7 +15,7 @@
   padding: 1rem;
   padding-right: 1.7rem;
   width: 520px;
-  height: 204px;
+  min-height: 204px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -50,6 +50,7 @@
 }
 
 .footer {
+  margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
   gap: 12px;
