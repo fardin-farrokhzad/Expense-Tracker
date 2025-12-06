@@ -1,42 +1,62 @@
 import { useState, useContext } from 'react';
 import styles from './Transactions.module.css';
-import AddTransactionModal from './components/AddTransactionModal/AddTransactionModal';
 import PlusIcon from '/src/assets/svg/outline/plus.svg?react';
 import DangerCircleIcon from '/src/assets/svg/outline/danger-circle.svg?react';
 import TransactionList from './components/TransactionList/TransactionList';
+import TransactionModal from './components/TransactionModal/TransactionModal';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
 
 function Transactions() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const { state: data } = useContext(TransactionContext);
+  const [modal, setModal] = useState({
+    isOpen: false,
+    mode: 'add',
+    data: null,
+  });
+
+  const { transactions, isLoading, error, refetch } =
+    useContext(TransactionContext);
+
+  const openAddModal = () => {
+    setModal({ isOpen: true, mode: 'add', data: null });
+  };
 
   return (
     <section className={styles.transactions}>
-      {/* Title + Add Button */}
       <div className={styles.title__wrapper}>
         <h2 className={styles.transactions__title}>تراکنش‌ها</h2>
-        <button
-          className={styles.transaction__button}
-          onClick={() => setModalOpen(true)}
-        >
+
+        <button className={styles.transaction__button} onClick={openAddModal}>
           <span>افزودن تراکنش</span>
           <PlusIcon className={styles.plus} />
         </button>
       </div>
 
-      {/* No Data */}
-      {data.length === 0 ? (
+      {isLoading ? (
+        <div className='loader__container'>
+          <div class='loader'></div>
+        </div>
+      ) : error ? (
+        <div className='error__container'>
+          <DangerCircleIcon className={styles.error__icon} />
+          <p className={styles.error__text}>{error}</p>
+          <button className={styles.retry__button} onClick={refetch}>
+            تلاش مجدد
+          </button>
+        </div>
+      ) : transactions.length === 0 ? (
         <div className={styles.no__data}>
           <DangerCircleIcon className={styles.no__data__icon} />
           <span>شما هنوز تراکنشی وارد نکرده‌اید</span>
         </div>
       ) : (
-        <TransactionList />
+        <TransactionList setModal={setModal} />
       )}
 
-      <AddTransactionModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+      <TransactionModal
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ isOpen: false, mode: 'add', data: null })}
+        mode={modal.mode}
+        transaction={modal.data}
       />
     </section>
   );

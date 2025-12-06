@@ -1,37 +1,86 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-
-const initialState = JSON.parse(localStorage.getItem('expenseTrackerData')) || [];
-
-function transactionReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_TRANSACTION':
-      return [
-        {
-          ...action.payload,
-          id: Date.now(),
-        },
-        ...state,
-      ];
-
-    case 'DELETE_TRANSACTION':
-      return state.filter(item => item.id !== action.payload);
-
-    case 'EDIT_TRANSACTION':
-      return state.map(item => (item.id === action.payload.id ? { ...item, ...action.payload.updatedData } : item));
-
-    default:
-      return state;
-  }
-}
+import React, { createContext, useCallback, useState } from 'react';
+import { useFetch } from '/src/hooks/useFetch.js';
 
 export const TransactionContext = createContext();
 
+const API_BASE = 'http://localhost:3001/transactions';
+
 export function TransactionProvider({ children }) {
-  const [state, dispatch] = useReducer(transactionReducer, initialState);
+  const [transactions, setTransactions] = useState([]);
+  const { data, loading, error: fetchError, refetch } = useFetch(API_BASE);
 
-  useEffect(() => {
-    localStorage.setItem('expenseTrackerData', JSON.stringify(state));
-  }, [state]);
+  const error = fetchError
+    ? 'بارگذاری تراکنش‌ها با خطا مواجه شد. لطفاً اتصال اینترنت خود را بررسی کنید یا دوباره تلاش کنید.'
+    : null;
 
-  return <TransactionContext.Provider value={{ state, dispatch }}>{children}</TransactionContext.Provider>;
+  React.useEffect(() => {
+    if (data) {
+      setTransactions(data.sort((a, b) => b.id - a.id));
+    }
+  }, [data]);
+
+  const addTransaction = useCallback(async transaction => {
+    try {
+      const res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(transaction),
+      });
+      if (!res.ok) throw new Error('add failed');
+      const newTrans = await res.json();
+      setTransactions(prev => [newTrans, ...prev]);
+      return newTrans;
+    } catch (err) {
+      console.error('Add transaction error:', err);
+      throw err;
+    }
+  }, []);
+
+  const updateTransaction = useCallback(async updatedTrans => {
+    try {
+      const res = await fetch(`${API_BASE}/${updatedTrans.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTrans),
+      });
+      if (!res.ok) throw new Error('update failed');
+      const updated = await res.json();
+      setTransactions(prev =>
+        prev.map(t => (t.id === updated.id ? updated : t))
+      );
+      return updated;
+    } catch (err) {
+      console.error('Update transaction error:', err);
+      throw err;
+    }
+  }, []);
+
+  const deleteTransaction = useCallback(async id => {
+    try {
+      const res = await fetch(`${API_BASE}/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('delete failed');
+      setTransactions(prev => prev.filter(t => t.id !== id));
+    } catch (err) {
+      console.error('Delete transaction error:', err);
+      throw err;
+    }
+  }, []);
+
+  return (
+    <TransactionContext.Provider
+      value={{
+        transactions,
+        isLoading: loading,
+        error,
+        addTransaction,
+        updateTransaction,
+        deleteTransaction,
+        refetch,
+      }}
+    >
+      {children}
+    </TransactionContext.Provider>
+  );
 }

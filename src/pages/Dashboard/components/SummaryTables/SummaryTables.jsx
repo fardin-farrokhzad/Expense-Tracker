@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './SummaryTables.module.css';
 import { formatNumber } from '/src/utils/formatNumber.js';
-import { balanceClassHelper } from '/src/utils/balanceClassHelper.js';
 
 function SummaryTables({ totals, monthlyTotals, lastMonthSummary }) {
   const currentMonthBalance = monthlyTotals.income - monthlyTotals.expense;
@@ -33,7 +32,11 @@ function SummaryTables({ totals, monthlyTotals, lastMonthSummary }) {
             </tr>
             <tr>
               <td>تراز</td>
-              <td className={balanceClassHelper(totals.balance)}>
+              <td
+                className={
+                  totals.balance >= 0 ? 'balance' : 'balance__negative'
+                }
+              >
                 {formatNumber(totals.balance)} تومان
               </td>
             </tr>
@@ -66,7 +69,11 @@ function SummaryTables({ totals, monthlyTotals, lastMonthSummary }) {
             </tr>
             <tr>
               <td>تراز</td>
-              <td className={balanceClassHelper(currentMonthBalance)}>
+              <td
+                className={
+                  currentMonthBalance >= 0 ? 'balance' : 'balance__negative'
+                }
+              >
                 {formatNumber(currentMonthBalance)} تومان
               </td>
             </tr>
@@ -99,7 +106,13 @@ function SummaryTables({ totals, monthlyTotals, lastMonthSummary }) {
             </tr>
             <tr>
               <td>تراز</td>
-              <td className={balanceClassHelper(lastMonthSummary.balance)}>
+              <td
+                className={
+                  lastMonthSummary.balance >= 0
+                    ? 'balance'
+                    : 'balance__negative'
+                }
+              >
                 {formatNumber(lastMonthSummary.balance)} تومان
               </td>
             </tr>
