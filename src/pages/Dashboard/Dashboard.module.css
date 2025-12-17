@@ -70,14 +70,6 @@
 }
 
 .balance {
-  color: var(--system-green);
-  direction: ltr;
-}
-.balance__negative {
-  color: var(--system-red);
-  direction: ltr;
-}
-.balance {
   border-bottom: 6px solid var(--system-green);
 }
 .balance__negative {

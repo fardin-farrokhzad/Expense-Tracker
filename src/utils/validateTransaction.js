@@ -1,5 +1,8 @@
 // src/utils/validateTransaction.js
-import { showFormError } from './showFormError.js';
+function showFormError(setError, message) {
+  setError(message);
+  setTimeout(() => setError(''), 3000);
+}
 
 export function validateTransaction(data, setError) {
   const date = data.date?.trim();
