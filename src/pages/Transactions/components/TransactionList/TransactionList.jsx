@@ -55,7 +55,7 @@ function TransactionList({ setModal }) {
   };
 
   return (
-    <>
+    <div className={styles.transactions}>
       <div className={`${styles.transactions__header} ${styles.desktop__only}`}>
         <span>تاریخ</span>
         <span>درآمد (تومان)</span>
@@ -133,7 +133,7 @@ function TransactionList({ setModal }) {
         onClose={() => setDeleteModal({ isOpen: false, id: null })}
         id={deleteModal.id}
       />
-    </>
+    </div>
   );
 }
 

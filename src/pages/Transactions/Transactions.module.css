@@ -8,17 +8,21 @@
   min-height: 803px;
   width: 816px;
   direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   margin: 1rem;
   color: var(--neutral-dark-1);
   position: relative;
 }
-
+.transactions > * {
+  width: 100%;
+}
 .title__wrapper {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 }
 
 .transactions__title {
