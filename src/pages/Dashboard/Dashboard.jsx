@@ -24,7 +24,7 @@ function Dashboard() {
 
       {isLoading ? (
         <div className='loader__container'>
-          <div class='loader'></div>
+          <div className='loader'></div>
         </div>
       ) : error ? (
         <div className='error__container'>
