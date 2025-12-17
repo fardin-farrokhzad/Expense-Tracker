@@ -16,8 +16,28 @@ function TransactionList({ setModal }) {
     id: null,
   });
 
-  const toggleMenu = id => {
+  const handleListClick = e => {
+    if (menuOpenId === null) return;
+    const wrapper = e.target.closest(`.${styles.more__wrapper}`);
+    if (!wrapper) setMenuOpenId(null);
+  };
+
+  const toggleMenu = (id, e) => {
+    // Prevent the parent click handler from immediately closing the menu
+    if (e && e.stopPropagation) e.stopPropagation();
     setMenuOpenId(menuOpenId === id ? null : id);
+  };
+
+  const handleWrapperBlur = (e, id) => {
+    // Close only if focus moved outside the wrapper
+    const to = e.relatedTarget;
+    if (!to || !e.currentTarget.contains(to)) {
+      if (menuOpenId === id) setMenuOpenId(null);
+    }
+  };
+
+  const handleWrapperKeyDown = e => {
+    if (e.key === 'Escape') setMenuOpenId(null);
   };
 
   const openDeleteModal = id => {
@@ -44,7 +64,7 @@ function TransactionList({ setModal }) {
         <span></span>
       </div>
 
-      <div className={styles.transactions__list}>
+      <div className={styles.transactions__list} onClick={handleListClick}>
         {transactions.map(item => (
           <div className={styles.transaction} key={item.id}>
             <div className={`${styles.transaction__item} ${styles.date}`}>
@@ -74,10 +94,15 @@ function TransactionList({ setModal }) {
               <span>{item.description}</span>
             </div>
             <div className={styles.transaction__item}>
-              <div className={styles.more__wrapper}>
+              <div
+                className={styles.more__wrapper}
+                tabIndex={0}
+                onBlur={e => handleWrapperBlur(e, item.id)}
+                onKeyDown={handleWrapperKeyDown}
+              >
                 <button
                   className={styles.more__button}
-                  onClick={() => toggleMenu(item.id)}
+                  onClick={e => toggleMenu(item.id, e)}
                 >
                   <MoreIcon />
                 </button>
