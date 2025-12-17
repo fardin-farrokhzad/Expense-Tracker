@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
 import { useFetch } from '/src/hooks/useFetch.js';
 
 export const TransactionContext = createContext();
@@ -13,10 +19,12 @@ export function TransactionProvider({ children }) {
     ? 'بارگذاری تراکنش‌ها با خطا مواجه شد. لطفاً اتصال اینترنت خود را بررسی کنید یا دوباره تلاش کنید.'
     : null;
 
-  React.useEffect(() => {
-    if (data) {
-      setTransactions(data.sort((a, b) => b.id - a.id));
-    }
+  useEffect(() => {
+    if (!data) return;
+
+    const sorted = [...data].sort((a, b) => b.createdAt - a.createdAt);
+
+    setTransactions(sorted);
   }, [data]);
 
   const addTransaction = useCallback(async transaction => {
@@ -67,19 +75,29 @@ export function TransactionProvider({ children }) {
       throw err;
     }
   }, []);
+  const value = useMemo(
+    () => ({
+      transactions,
+      isLoading: loading,
+      error,
+      addTransaction,
+      updateTransaction,
+      deleteTransaction,
+      refetch,
+    }),
+    [
+      transactions,
+      loading,
+      error,
+      addTransaction,
+      updateTransaction,
+      deleteTransaction,
+      refetch,
+    ]
+  );
 
   return (
-    <TransactionContext.Provider
-      value={{
-        transactions,
-        isLoading: loading,
-        error,
-        addTransaction,
-        updateTransaction,
-        deleteTransaction,
-        refetch,
-      }}
-    >
+    <TransactionContext.Provider value={value}>
       {children}
     </TransactionContext.Provider>
   );
