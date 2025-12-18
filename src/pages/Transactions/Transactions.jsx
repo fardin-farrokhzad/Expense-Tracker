@@ -3,8 +3,11 @@ import styles from './Transactions.module.css';
 import PlusIcon from '/src/assets/svg/outline/plus.svg?react';
 import DangerCircleIcon from '/src/assets/svg/outline/danger-circle.svg?react';
 import TransactionList from './components/TransactionList/TransactionList';
+import TransactionPagination from './components/TransactionPagination/TransactionPagination';
+import { useSearchParams } from 'react-router-dom';
 import TransactionModal from './components/TransactionModal/TransactionModal';
 import { TransactionContext } from '/src/context/TransactionContext.jsx';
+import TransactionFilter from './components/TransactionFilter/TransactionFilter';
 
 function Transactions() {
   const [modal, setModal] = useState({
@@ -15,6 +18,26 @@ function Transactions() {
 
   const { transactions, isLoading, error, refetch } =
     useContext(TransactionContext);
+
+  // pagination
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const pageSize = 10;
+  const totalPages = Math.max(1, Math.ceil(transactions.length / pageSize));
+  const clampedPage = Math.min(Math.max(1, currentPage), totalPages);
+
+  // keep URL in valid range
+  if (String(clampedPage) !== (searchParams.get('page') || '1')) {
+    const params = new URLSearchParams(searchParams);
+    if (clampedPage === 1) params.delete('page');
+    else params.set('page', String(clampedPage));
+    setSearchParams(params);
+  }
+
+  const paginatedTransactions = transactions.slice(
+    (clampedPage - 1) * pageSize,
+    clampedPage * pageSize
+  );
 
   const openAddModal = () => {
     setModal({ isOpen: true, mode: 'add', data: null });
@@ -30,6 +53,7 @@ function Transactions() {
           <PlusIcon className={styles.plus} />
         </button>
       </div>
+      <TransactionFilter />
 
       {isLoading ? (
         <div className='loader__container'>
@@ -49,7 +73,12 @@ function Transactions() {
           <span>شما هنوز تراکنشی وارد نکرده‌اید</span>
         </div>
       ) : (
-        <TransactionList setModal={setModal} />
+        <>
+          <TransactionList setModal={setModal} items={paginatedTransactions} />
+          {transactions.length > pageSize && (
+            <TransactionPagination totalPages={totalPages} />
+          )}
+        </>
       )}
 
       <TransactionModal

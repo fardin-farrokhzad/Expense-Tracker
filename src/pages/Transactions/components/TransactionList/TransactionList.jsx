@@ -7,8 +7,10 @@ import { TransactionContext } from '/src/context/TransactionContext.jsx';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-function TransactionList({ setModal }) {
-  const { transactions, deleteTransaction } = useContext(TransactionContext);
+function TransactionList({ setModal, items }) {
+  const { transactions: ctxTransactions, deleteTransaction } = useContext(TransactionContext);
+
+  const transactions = items ?? ctxTransactions;
 
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [deleteModal, setDeleteModal] = useState({
