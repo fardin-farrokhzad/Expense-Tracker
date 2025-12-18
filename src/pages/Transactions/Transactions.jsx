@@ -50,7 +50,7 @@ function Transactions() {
     // ordering and optional type filtering
     switch (orderParam) {
       case 'oldest':
-        list.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+        list.sort((a, b) => new Date(a.date) - new Date(b.date));
         break;
       case 'highest-expense':
         list = list
@@ -74,7 +74,7 @@ function Transactions() {
         break;
       case 'newest':
       default:
-        list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        list.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
     return list;
