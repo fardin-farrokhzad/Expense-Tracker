@@ -22,9 +22,7 @@ export function TransactionProvider({ children }) {
   useEffect(() => {
     if (!data) return;
 
-    const sorted = [...data].sort((a, b) => b.createdAt - a.createdAt);
-
-    setTransactions(sorted);
+    setTransactions([...data]);
   }, [data]);
 
   const addTransaction = useCallback(async transaction => {
