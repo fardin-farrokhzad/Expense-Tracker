@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  direction: rtl;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.from,
+.to,
+.order {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.from,
+.to {
+  position: relative;
+  min-width: 160px;
+}
+
+.from::after,
+.to::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: url('/src/assets/svg/outline/calendar.svg') no-repeat center
+    center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.from input[type='date'],
+.to input[type='date'] {
+  padding: 8px 8px 8px 44px;
+  border: 1px solid var(--neutral-soft-grey-1);
+  border-radius: 6px;
+  height: 38px;
+  background: transparent;
+  color: var(--neutral-dark-2);
+  text-align: right;
+  caret-color: var(--neutral-dark-2);
+}
+
+/* Hide text when empty and show when value exists - matches TransactionModal */
+.from input[type='date']:invalid,
+.to input[type='date']:invalid {
+  color: transparent;
+}
+.from input[type='date']:valid,
+.to input[type='date']:valid {
+  color: var(--neutral-dark-2);
+}
+
+/* Full clickable area for calendar picker */
+.from input[type='date']::-webkit-calendar-picker-indicator,
+.to input[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  color: transparent;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Hide Firefox clear button */
+.from input[type='date']::-moz-clear,
+.to input[type='date']::-moz-clear {
+  display: none;
+}
+
+.order select {
+  padding: 8px 12px;
+  border: 1px solid var(--neutral-soft-grey-1);
+  border-radius: 6px;
+  height: 38px;
+  min-width: 180px;
+  background: transparent;
+  color: var(--neutral-dark-2);
+}
+
+label {
+  font-weight: 500;
+  color: var(--neutral-dark-2);
+  font-size: 13px;
+}
+
+@media (max-width: 790px) {
+  .container {
+    gap: 8px;
+    flex-direction: column;
+  }
+  .from,
+  .to,
+  .order {
+    min-width: 220px;
+    width: 100%;
+  }
+  .from input,
+  .to input,
+  .order select {
+    flex-grow: 1;
+  }
+}
