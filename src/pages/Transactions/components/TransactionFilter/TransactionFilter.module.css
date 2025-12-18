@@ -38,16 +38,17 @@
   z-index: 2;
 }
 
-.from input[type='date'],
-.to input[type='date'] {
+.from input,
+.to input {
   padding: 8px 8px 8px 44px;
   border: 1px solid var(--neutral-soft-grey-1);
   border-radius: 6px;
-  height: 38px;
+  height: 40px;
   background: transparent;
   color: var(--neutral-dark-2);
   text-align: right;
   caret-color: var(--neutral-dark-2);
+  width: 186px;
 }
 
 /* Hide text when empty and show when value exists - matches TransactionModal */
@@ -85,10 +86,17 @@
   padding: 8px 12px;
   border: 1px solid var(--neutral-soft-grey-1);
   border-radius: 6px;
-  height: 38px;
-  min-width: 180px;
+  height: 40px;
+  width: 180px;
   background: transparent;
   color: var(--neutral-dark-2);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('/src/assets/svg/outline/arrowDown.svg');
+  background-repeat: no-repeat;
+  background-position-x: 8px;
+  background-position-y: 7px;
+  border: 1px solid #dfdfdf;
 }
 
 label {
@@ -112,5 +120,6 @@ label {
   .to input,
   .order select {
     flex-grow: 1;
+    width: auto;
   }
 }

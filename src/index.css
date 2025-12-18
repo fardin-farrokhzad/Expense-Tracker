@@ -41,6 +41,11 @@ button {
     sans-serif;
   border: none;
 }
+select {
+  font-family:
+    Vazir FD,
+    sans-serif;
+}
 input[type='text'],
 input[type='number'],
 input[type='date'] {
