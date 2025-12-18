@@ -1,6 +1,41 @@
 {
   "transactions": [
     {
+      "date": "2025-12-17",
+      "amount": 450000,
+      "type": "income",
+      "description": "حقوق آذر",
+      "id": "1764023002001"
+    },
+    {
+      "date": "2025-12-16",
+      "amount": 105000,
+      "type": "expense",
+      "description": "خرید مواد غذایی",
+      "id": "1764023002002"
+    },
+    {
+      "date": "2025-12-15",
+      "amount": 92000,
+      "type": "expense",
+      "description": "رستوران",
+      "id": "1764023002003"
+    },
+    {
+      "date": "2025-12-10",
+      "amount": 135000,
+      "type": "expense",
+      "description": "سوخت خودرو",
+      "id": "1764023002004"
+    },
+    {
+      "date": "2025-12-05",
+      "amount": 180000,
+      "type": "income",
+      "description": "پروژه فریلنس",
+      "id": "1764023002005"
+    },
+    {
       "date": "2025-11-21",
       "amount": 420000,
       "type": "income",
@@ -13,6 +48,13 @@
       "type": "expense",
       "description": "غذا",
       "id": "1764023001002"
+    },
+    {
+      "date": "2025-11-15",
+      "amount": 75000,
+      "type": "expense",
+      "description": "قبض برق",
+      "id": "1764023002006"
     },
     {
       "date": "2025-10-18",
@@ -34,6 +76,13 @@
       "type": "expense",
       "description": "خرید",
       "id": "1764023001005"
+    },
+    {
+      "date": "2025-10-05",
+      "amount": 110000,
+      "type": "expense",
+      "description": "تعمیرات منزل",
+      "id": "1764023002007"
     },
     {
       "date": "2025-09-05",
@@ -64,6 +113,13 @@
       "id": "1764023001010"
     },
     {
+      "date": "2025-08-20",
+      "amount": 85000,
+      "type": "expense",
+      "description": "هدیه تولد",
+      "id": "1764023002008"
+    },
+    {
       "date": "2025-07-22",
       "amount": 76000,
       "type": "expense",
@@ -83,6 +139,13 @@
       "type": "income",
       "description": "حقوق",
       "id": "1764023001014"
+    },
+    {
+      "date": "2025-06-10",
+      "amount": 140000,
+      "type": "expense",
+      "description": "سفر کوتاه",
+      "id": "1764023002009"
     },
     {
       "date": "2025-05-12",
