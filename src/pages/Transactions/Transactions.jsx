@@ -95,7 +95,6 @@ function Transactions() {
       else params.set('page', String(clampedPage));
       setSearchParams(params);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clampedPage]);
 
   const paginatedTransactions = filteredTransactions.slice(
@@ -106,6 +105,42 @@ function Transactions() {
   const openAddModal = () => {
     setModal({ isOpen: true, mode: 'add', data: null });
   };
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <div className='loader__container'>
+        <div className='loader'></div>
+      </div>
+    );
+  } else if (error) {
+    content = (
+      <div className='error__container'>
+        <DangerCircleIcon className={styles.error__icon} />
+        <p className={styles.error__text}>{error}</p>
+        <button className={styles.retry__button} onClick={refetch}>
+          تلاش مجدد
+        </button>
+      </div>
+    );
+  } else if (transactions.length === 0) {
+    content = (
+      <div className={styles.no__data}>
+        <DangerCircleIcon className={styles.no__data__icon} />
+        <span>شما هنوز تراکنشی وارد نکرده‌اید</span>
+      </div>
+    );
+  } else {
+    content = (
+      <>
+        <TransactionList setModal={setModal} items={paginatedTransactions} />
+        {transactions.length > pageSize && (
+          <TransactionPagination totalPages={totalPages} />
+        )}
+      </>
+    );
+  }
 
   return (
     <section className={styles.transactions}>
@@ -119,31 +154,7 @@ function Transactions() {
       </div>
       <TransactionFilter />
 
-      {isLoading ? (
-        <div className='loader__container'>
-          <div className='loader'></div>
-        </div>
-      ) : error ? (
-        <div className='error__container'>
-          <DangerCircleIcon className={styles.error__icon} />
-          <p className={styles.error__text}>{error}</p>
-          <button className={styles.retry__button} onClick={refetch}>
-            تلاش مجدد
-          </button>
-        </div>
-      ) : transactions.length === 0 ? (
-        <div className={styles.no__data}>
-          <DangerCircleIcon className={styles.no__data__icon} />
-          <span>شما هنوز تراکنشی وارد نکرده‌اید</span>
-        </div>
-      ) : (
-        <>
-          <TransactionList setModal={setModal} items={paginatedTransactions} />
-          {transactions.length > pageSize && (
-            <TransactionPagination totalPages={totalPages} />
-          )}
-        </>
-      )}
+      {content}
 
       <TransactionModal
         isOpen={modal.isOpen}
