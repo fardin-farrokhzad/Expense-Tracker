@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useMemo, useEffect } from 'react';
 import styles from './Transactions.module.css';
 import PlusIcon from '/src/assets/svg/outline/plus.svg?react';
 import DangerCircleIcon from '/src/assets/svg/outline/danger-circle.svg?react';
@@ -19,22 +19,86 @@ function Transactions() {
   const { transactions, isLoading, error, refetch } =
     useContext(TransactionContext);
 
-  // pagination
+  // pagination + filtering/sorting driven by URL params: from, to, order
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const pageSize = 10;
-  const totalPages = Math.max(1, Math.ceil(transactions.length / pageSize));
+
+  const fromDateParam = searchParams.get('from') || '';
+  const toDateParam = searchParams.get('to') || '';
+  const orderParam = searchParams.get('order') || 'newest';
+
+  const filteredTransactions = useMemo(() => {
+    let list = Array.isArray(transactions) ? [...transactions] : [];
+
+    // date filtering based on item.date (assumed parsable)
+    if (fromDateParam) {
+      const fromTs = Date.parse(fromDateParam);
+      if (!Number.isNaN(fromTs)) {
+        list = list.filter(item => Date.parse(item.date) >= fromTs);
+      }
+    }
+    if (toDateParam) {
+      const toTs = Date.parse(toDateParam);
+      if (!Number.isNaN(toTs)) {
+        // include the whole to day
+        const endOfDay = toTs + 24 * 60 * 60 * 1000 - 1;
+        list = list.filter(item => Date.parse(item.date) <= endOfDay);
+      }
+    }
+
+    // ordering and optional type filtering
+    switch (orderParam) {
+      case 'oldest':
+        list.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+        break;
+      case 'highest-expense':
+        list = list
+          .filter(t => t.type === 'expense')
+          .sort((a, b) => b.amount - a.amount);
+        break;
+      case 'lowest-expense':
+        list = list
+          .filter(t => t.type === 'expense')
+          .sort((a, b) => a.amount - b.amount);
+        break;
+      case 'highest-income':
+        list = list
+          .filter(t => t.type === 'income')
+          .sort((a, b) => b.amount - a.amount);
+        break;
+      case 'lowest-income':
+        list = list
+          .filter(t => t.type === 'income')
+          .sort((a, b) => a.amount - b.amount);
+        break;
+      case 'newest':
+      default:
+        list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+
+    return list;
+  }, [transactions, fromDateParam, toDateParam, orderParam]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredTransactions.length / pageSize)
+  );
   const clampedPage = Math.min(Math.max(1, currentPage), totalPages);
 
-  // keep URL in valid range
-  if (String(clampedPage) !== (searchParams.get('page') || '1')) {
-    const params = new URLSearchParams(searchParams);
-    if (clampedPage === 1) params.delete('page');
-    else params.set('page', String(clampedPage));
-    setSearchParams(params);
-  }
+  // keep URL in valid range (do not call setSearchParams during render)
+  useEffect(() => {
+    const urlPage = searchParams.get('page') || '1';
+    if (String(clampedPage) !== urlPage) {
+      const params = new URLSearchParams(searchParams);
+      if (clampedPage === 1) params.delete('page');
+      else params.set('page', String(clampedPage));
+      setSearchParams(params);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clampedPage]);
 
-  const paginatedTransactions = transactions.slice(
+  const paginatedTransactions = filteredTransactions.slice(
     (clampedPage - 1) * pageSize,
     clampedPage * pageSize
   );
