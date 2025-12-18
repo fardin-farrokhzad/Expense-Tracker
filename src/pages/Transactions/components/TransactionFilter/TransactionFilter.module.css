@@ -87,7 +87,7 @@
   border: 1px solid var(--neutral-soft-grey-1);
   border-radius: 6px;
   height: 40px;
-  width: 180px;
+  width: 149px;
   background: transparent;
   color: var(--neutral-dark-2);
   -webkit-appearance: none;
@@ -96,7 +96,6 @@
   background-repeat: no-repeat;
   background-position-x: 8px;
   background-position-y: 7px;
-  border: 1px solid #dfdfdf;
 }
 
 label {
