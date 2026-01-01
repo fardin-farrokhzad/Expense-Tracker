@@ -35,7 +35,7 @@
     center;
   background-size: contain;
   pointer-events: none;
-  z-index: 2;
+  z-index: 0;
 }
 
 .from input,
