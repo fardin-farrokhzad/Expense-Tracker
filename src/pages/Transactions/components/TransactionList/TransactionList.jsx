@@ -10,7 +10,7 @@ import { formatNumber } from '/src/utils/formatNumber.js';
 function TransactionList({ setModal, items }) {
   const { transactions: ctxTransactions, deleteTransaction } = useContext(TransactionContext);
 
-  const transactions = items ?? ctxTransactions;
+  const transactions = items ?? ctxTransactions ?? [];
 
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [deleteModal, setDeleteModal] = useState({

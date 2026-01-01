@@ -16,8 +16,7 @@ function Transactions() {
     data: null,
   });
 
-  const { transactions, isLoading, error, refetch } =
-    useContext(TransactionContext);
+  const { transactions, isLoading, error } = useContext(TransactionContext);
 
   // pagination + filtering/sorting driven by URL params: from, to, order
   const [searchParams, setSearchParams] = useSearchParams();
@@ -118,8 +117,11 @@ function Transactions() {
     content = (
       <div className='error__container'>
         <DangerCircleIcon className={styles.error__icon} />
-        <p className={styles.error__text}>{error}</p>
-        <button className={styles.retry__button} onClick={refetch}>
+        <p className={styles.error__text}>خطا در بارگذاری داده‌ها</p>
+        <button
+          className={styles.retry__button}
+          onClick={() => window.location.reload()}
+        >
           تلاش مجدد
         </button>
       </div>

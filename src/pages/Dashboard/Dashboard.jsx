@@ -9,8 +9,7 @@ import LineChart from './components/LineChart/LineChart.jsx';
 import SummaryTables from './components/SummaryTables/SummaryTables.jsx';
 
 function Dashboard() {
-  const { transactions, isLoading, error, refetch } =
-    useContext(TransactionContext);
+  const { transactions, isLoading, error } = useContext(TransactionContext);
 
   const { totals, monthlyTotals, lastMonthSummary, chartData } = useMemo(() => {
     return calculateDashboardData(transactions);
@@ -28,8 +27,11 @@ function Dashboard() {
         </div>
       ) : error ? (
         <div className='error__container'>
-          <p className={styles.error__text}>{error}</p>
-          <button className={styles.retry__button} onClick={refetch}>
+          <p className={styles.error__text}>خطا در بارگذاری داده‌ها</p>
+          <button
+            className={styles.retry__button}
+            onClick={() => window.location.reload()}
+          >
             تلاش مجدد
           </button>
         </div>

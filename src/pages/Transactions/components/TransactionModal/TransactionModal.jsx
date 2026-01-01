@@ -37,7 +37,7 @@ function TransactionModal({
 
     try {
       if (isEdit) {
-        await updateTransaction({ ...validated, id: transaction.id });
+        await updateTransaction(transaction.id, validated);
       } else {
         await addTransaction(validated);
       }
