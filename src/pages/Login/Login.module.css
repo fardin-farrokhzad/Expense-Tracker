@@ -11,11 +11,11 @@
   justify-content: space-between;
   transform: translateY(50%);
   justify-self: center;
+  gap: 8px;
   text-align: right;
 }
 .login__form label {
   align-self: flex-start;
-  margin-bottom: 8px;
   font-size: 16px;
   font-weight: 500;
   color: var(--neutral-dark-grey-1);
@@ -23,13 +23,14 @@
 .login__form span {
   color: var(--system-red);
   font-size: 14px;
-  margin-bottom: 12px;
   align-self: center;
   display: none;
+  transition: all 0.3s ease;
 }
 
 .login__form span.show {
   display: block;
+  transition: all 0.3s ease;
 }
 .login__form input {
   height: 40px;
@@ -43,11 +44,11 @@
   color: var(--neutral-dark-grey-1);
 }
 .login__form button {
-  height: 48px;
+  font-size: 1rem;
+  padding: 8px;
   width: 100%;
   background-color: var(--primary-brand);
   color: var(--neutral-white);
-  font-size: 16px;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
