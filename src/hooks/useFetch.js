@@ -54,7 +54,6 @@ export function useFetch(url) {
   }
 
   async function putData(id, putBody) {
-    setLoading(true);
     try {
       const response = await fetch(`${url}/${id}`, {
         method: 'PUT',
@@ -72,13 +71,10 @@ export function useFetch(url) {
     } catch (err) {
       setError(err);
       throw err;
-    } finally {
-      setLoading(false);
     }
   }
 
   async function deleteData(id) {
-    setLoading(true);
     try {
       const response = await fetch(`${url}/${id}`, {
         method: 'DELETE',
@@ -92,8 +88,6 @@ export function useFetch(url) {
     } catch (err) {
       setError(err);
       throw err;
-    } finally {
-      setLoading(false);
     }
   }
 
