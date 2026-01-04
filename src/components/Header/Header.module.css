@@ -8,6 +8,7 @@
   justify-content: space-between;
   background-color: var(--neutral-white);
   padding: 0 40px;
+  overflow: hidden;
 }
 .wrapper {
   width: 100%;
