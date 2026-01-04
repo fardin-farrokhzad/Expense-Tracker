@@ -5,7 +5,7 @@ import { AuthContext } from '/src/context/AuthContext.jsx';
 
 export const TransactionContext = createContext();
 
-const API_BASE = 'http://localhost:3001/transactions';
+const API_BASE = 'https://6959f073950475ada4656c2f.mockapi.io/transactions';
 
 export function TransactionProvider({ children }) {
   const { state } = useContext(AuthContext);
