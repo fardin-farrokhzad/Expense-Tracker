@@ -12,10 +12,10 @@ import {
 import styles from './BarChart.module.css';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-function BarChart({ monthlyIncome, monthlyExpense }) {
+function BarChart({ income, expense }) {
   const data = [
-    { name: 'درآمد', value: monthlyIncome || 0 },
-    { name: 'هزینه', value: monthlyExpense || 0 },
+    { name: 'درآمد', value: income || 0 },
+    { name: 'هزینه', value: expense || 0 },
   ];
 
   const COLORS = ['#3ebd93', '#ef4e4e'];

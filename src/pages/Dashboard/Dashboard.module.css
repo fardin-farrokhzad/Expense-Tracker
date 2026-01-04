@@ -12,9 +12,7 @@
   background-color: var(--neutral-white);
   color: var(--neutral-dark-1);
 }
-.container h1 {
-  padding-right: 3rem;
-}
+
 /* Summary Cards */
 .summary__cards {
   margin: 1rem;
@@ -122,6 +120,33 @@
   font-weight: 700;
 }
 
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+}
+.timeframe__selector {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.timeframe__selector label {
+  font-weight: 600;
+  color: var(--neutral-dark-2);
+}
+.timeframe__selector select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--neutral-dark-3);
+  font-size: 1rem;
+}
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .charts {
@@ -164,5 +189,9 @@
 
   .chart__wrapper span {
     font-size: 1rem;
+  }
+  .dashboard__header {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
