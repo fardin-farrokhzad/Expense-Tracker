@@ -12,17 +12,15 @@ import {
 import styles from './BarChart.module.css';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-//  BarChart component – displays a simple two-bar chart comparing monthly income and expenses.
-
-function BarChart({ monthlyIncome, monthlyExpense }) {
+function BarChart({ income, expense }) {
   const data = [
-    { name: 'درآمد', value: monthlyIncome || 0 },
-    { name: 'هزینه', value: monthlyExpense || 0 },
+    { name: 'درآمد', value: income || 0 },
+    { name: 'هزینه', value: expense || 0 },
   ];
 
   const COLORS = ['#3ebd93', '#ef4e4e'];
 
-  // Custom label displayed above each bar – splits long numbers into two lines for readability
+  // Custom label displayed above each bar
   const CustomLabel = props => {
     const { x, y, width, value, index } = props;
     const name = data[index].name;

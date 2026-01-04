@@ -2,8 +2,6 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from './DoughnutChart.module.css';
 import { formatNumber } from '/src/utils/formatNumber.js';
 
-//  DoughnutChart – shows total income vs total expense as a two-segment doughnut.
-
 function DoughnutChart({ incomeTotal, expenseTotal }) {
   const data = [
     { name: 'درآمد', value: incomeTotal || 0 },

@@ -1,3 +1,16 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+}
+
 .modal {
   background: #fff;
   border-radius: 10px;
@@ -147,7 +160,8 @@ input[type='radio'] {
 }
 
 /* Show text immediately when value exists */
-.date input[type='date']:valid {
+.date input[type='date']:valid,
+.date input[type='date']:focus {
   color: var(--neutral-dark-2);
 }
 
@@ -172,18 +186,6 @@ input[type='radio'] {
 /* Hide Firefox clear button */
 .date input[type='date']::-moz-clear {
   display: none;
-}
-
-.error {
-  color: var(--system-red);
-  text-align: center;
-  margin-top: 12px;
-  font-size: 0.9rem;
-  background-color: #fff1f0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--system-red);
-  animation: errorPop 0.4s ease-out;
 }
 
 @keyframes errorPop {

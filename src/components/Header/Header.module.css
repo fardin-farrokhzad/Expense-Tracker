@@ -5,9 +5,17 @@
   display: flex;
   direction: rtl;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   background-color: var(--neutral-white);
   padding: 0 40px;
+  overflow: hidden;
+}
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1 1 auto;
 }
 .logo {
   height: 100%;
@@ -15,6 +23,7 @@
   align-items: center;
 }
 .item {
+  flex: 0 1 auto;
   height: 100%;
   padding: 20px;
   text-align: center;
@@ -24,15 +33,22 @@
   color: var(--neutral-dark-1);
   font-weight: 400;
   font-size: 14px;
+  transition: 0.3s ease;
+}
+.item:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 .item.active {
   background-color: var(--primary-brand);
   color: var(--neutral-white);
   transition: 0.5s ease;
 }
-@media (max-width: 790px) {
-  .nav {
-    justify-content: space-between;
-    padding: 0 20px 0 0;
-  }
+.logout {
+  margin-top: 0.5rem;
+  transition: 0.3s ease;
+}
+.logout:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }

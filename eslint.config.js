@@ -27,7 +27,12 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
-    extends: [js.configs.recommended, react.configs.recommended, reactHooks.configs.recommended, jsxA11y.configs.recommended],
+    extends: [
+      js.configs.recommended,
+      react.configs.recommended,
+      reactHooks.configs.recommended,
+      jsxA11y.configs.recommended,
+    ],
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'prettier/prettier': ['error'],

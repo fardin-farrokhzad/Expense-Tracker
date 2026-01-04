@@ -23,6 +23,7 @@ The application enables users to create, edit, and delete transactions, flag the
 - Clean and consistent code quality ensured by **ESLint** and **Prettier**
 
 ### Built With
+
 - **React.js**
 - **Vite**
 - **JavaScript (ES6+)**

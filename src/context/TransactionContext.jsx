@@ -1,37 +1,55 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-
-const initialState = JSON.parse(localStorage.getItem('expenseTrackerData')) || [];
-
-function transactionReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_TRANSACTION':
-      return [
-        {
-          ...action.payload,
-          id: Date.now(),
-        },
-        ...state,
-      ];
-
-    case 'DELETE_TRANSACTION':
-      return state.filter(item => item.id !== action.payload);
-
-    case 'EDIT_TRANSACTION':
-      return state.map(item => (item.id === action.payload.id ? { ...item, ...action.payload.updatedData } : item));
-
-    default:
-      return state;
-  }
-}
+import React, { createContext, useMemo } from 'react';
+import { useFetch } from '/src/hooks/useFetch.js';
+import { useContext } from 'react';
+import { AuthContext } from '/src/context/AuthContext.jsx';
 
 export const TransactionContext = createContext();
 
+const API_BASE = 'https://6959f073950475ada4656c2f.mockapi.io/transactions';
+
 export function TransactionProvider({ children }) {
-  const [state, dispatch] = useReducer(transactionReducer, initialState);
+  const { state } = useContext(AuthContext);
+  if (!state.user) {
+    return (
+      <TransactionContext.Provider value={null}>
+        {children}
+      </TransactionContext.Provider>
+    );
+  }
 
-  useEffect(() => {
-    localStorage.setItem('expenseTrackerData', JSON.stringify(state));
-  }, [state]);
+  const {
+    data: transactions,
+    loading,
+    error,
+    postData,
+    putData,
+    deleteData,
+  } = useFetch(API_BASE);
+  async function addTransaction(transaction) {
+    return await postData(transaction);
+  }
+  async function updateTransaction(id, transaction) {
+    return await putData(id, transaction);
+  }
+  async function deleteTransaction(id) {
+    return await deleteData(id);
+  }
 
-  return <TransactionContext.Provider value={{ state, dispatch }}>{children}</TransactionContext.Provider>;
+  const value = useMemo(
+    () => ({
+      transactions: transactions ?? [],
+      isLoading: loading,
+      error,
+      addTransaction,
+      updateTransaction,
+      deleteTransaction,
+    }),
+    [transactions, loading, error, postData, putData, deleteData]
+  );
+
+  return (
+    <TransactionContext.Provider value={value}>
+      {children}
+    </TransactionContext.Provider>
+  );
 }

@@ -10,52 +10,7 @@ export function calculateTotals(transactions) {
     { income: 0, expense: 0 }
   );
 }
-
-// Calculate income and expense for the current month only
-export function calculateCurrentMonthTotals(transactions) {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-
-  return transactions.reduce(
-    (acc, t) => {
-      const date = new Date(t.date);
-      if (
-        date.getFullYear() === currentYear &&
-        date.getMonth() === currentMonth
-      ) {
-        const amount = Number(t.amount);
-        if (t.type === 'income') acc.income += amount;
-        else if (t.type === 'expense') acc.expense += amount;
-      }
-      return acc;
-    },
-    { income: 0, expense: 0 }
-  );
-}
-
-// Calculate income and expense for the previous month
-export function calculateLastMonthTotals(transactions) {
-  const now = new Date();
-  const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const year = lastMonthDate.getFullYear();
-  const month = lastMonthDate.getMonth();
-
-  return transactions.reduce(
-    (acc, t) => {
-      const date = new Date(t.date);
-      if (date.getFullYear() === year && date.getMonth() === month) {
-        const amount = Number(t.amount);
-        if (t.type === 'income') acc.income += amount;
-        else if (t.type === 'expense') acc.expense += amount;
-      }
-      return acc;
-    },
-    { income: 0, expense: 0 }
-  );
-}
-
-// Generate monthly data for the line chart (one entry per month)
+// Generate monthly data for the line chart one entry per month
 export function calculateMonthlyChartData(transactions) {
   if (transactions.length === 0) return [];
 
@@ -98,27 +53,56 @@ export function calculateMonthlyChartData(transactions) {
     .map(key => monthsMap[key]);
 }
 
-// Main function – returns all data needed for the dashboard
-export function calculateDashboardData(transactions) {
-  const allTotals = calculateTotals(transactions);
-  const monthly = calculateCurrentMonthTotals(transactions);
-  const lastMonth = calculateLastMonthTotals(transactions);
-  const chartData = calculateMonthlyChartData(transactions);
+// Return transactions filtered by timeframe
+function filterByTimeframe(transactions, timeframe) {
+  if (!timeframe || timeframe === 'all_time') return transactions;
+
+  const now = new Date();
+  let months = 0;
+  switch (timeframe) {
+    case 'last_1_month':
+      months = 1;
+      break;
+    case 'last_3_months':
+      months = 3;
+      break;
+    case 'last_6_months':
+      months = 6;
+      break;
+    case 'last_12_months':
+      months = 12;
+      break;
+    default:
+      return transactions;
+  }
+
+  // Include the current month and the previous (months-1) months
+  const start = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
+  const startTs = start.getTime();
+
+  return transactions.filter(t => {
+    const d = new Date(t.date);
+    return d.getTime() >= startTs;
+  });
+}
+
+// Main function – returns all data needed for the dashboard for a given timeframe
+export function calculateDashboardData(transactions, timeframe = 'all_time') {
+  // first filter transactions according to the selected timeframe
+  const filtered = filterByTimeframe(transactions, timeframe);
+
+  const totals = calculateTotals(filtered); // totals for the selected period
+  const chartData = calculateMonthlyChartData(filtered);
 
   return {
     totals: {
-      incomeTotal: allTotals.income,
-      expenseTotal: allTotals.expense,
-      balance: allTotals.income - allTotals.expense,
+      incomeTotal: totals.income,
+      expenseTotal: totals.expense,
+      balance: totals.income - totals.expense,
     },
-    monthlyTotals: {
-      income: monthly.income,
-      expense: monthly.expense,
-    },
-    lastMonthSummary: {
-      income: lastMonth.income,
-      expense: lastMonth.expense,
-      balance: lastMonth.income - lastMonth.expense,
+    periodTotals: {
+      income: totals.income,
+      expense: totals.expense,
     },
     chartData,
   };

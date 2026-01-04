@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--neutral-dark-1);
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
+.page:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.active {
+  border: 1px solid var(--primary-brand);
+  color: var(--primary-brand);
+}
+
+.nav {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--neutral-dark-1);
+  cursor: pointer;
+}
+
+.disabled {
+  opacity: 0.45;
+  cursor: default;
+}
