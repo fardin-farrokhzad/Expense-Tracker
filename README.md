@@ -54,3 +54,7 @@ npm run dev
 
 ## Live Demo
 https://et-2-9l4s.vercel.app/
+### Email
+admin@example.com
+### Password
+admin123
