@@ -21,15 +21,18 @@ function TransactionModal({
     ? transaction
     : { date: '', amount: '', type: 'income', description: '' };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleSubmit = async data => {
     setError('');
     setIsSubmitting(true);
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const formData = {
+      date: data.get('date'),
+      amount: data.get('amount'),
+      type: data.get('type'),
+      description: data.get('description'),
+    };
 
-    const validated = validateTransaction(data, setError);
+    const validated = validateTransaction(formData, setError);
     if (!validated) {
       setIsSubmitting(false);
       return;
@@ -66,7 +69,7 @@ function TransactionModal({
         </div>
 
         {/* Form */}
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} action={handleSubmit}>
           {/* Date */}
           <label className={`${styles.label} ${styles.date}`}>
             تاریخ
