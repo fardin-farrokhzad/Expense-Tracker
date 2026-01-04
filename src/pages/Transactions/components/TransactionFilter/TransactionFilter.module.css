@@ -51,11 +51,6 @@
   width: 186px;
 }
 
-/* Hide text when empty and show when value exists - matches TransactionModal */
-.from input[type='date']:invalid,
-.to input[type='date']:invalid {
-  color: transparent;
-}
 .from input[type='date']:valid,
 .to input[type='date']:valid {
   color: var(--neutral-dark-2);
