@@ -51,3 +51,6 @@ npm install
 
 ### 4. Start the server
 npm run dev
+
+## Live Demo
+https://et-2-9l4s.vercel.app/
