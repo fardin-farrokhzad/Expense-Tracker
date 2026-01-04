@@ -4,14 +4,22 @@ Expense Tracker is a web-based financial management application built with **Rea
 
 The application enables users to create, edit, and delete transactions, flag them as expenses or incomes, and view all data in a structured transaction table. Data persistence is handled through the browser’s **localStorage**, ensuring that user information remains available across sessions without requiring external databases or backend integration.
 
-The focus of this project is on clean architecture, maintainable code, and practical implementation of React fundamentals. It applies modern development practices such as component-driven design, controlled state management with React Hooks (`useState`, `useEffect`), conditional rendering, and modular CSS styling. No external state management or CSS frameworks are used to preserve full control over the application’s internal logic and presentation.
-
 ### Core Features
-
-- Add, edit, and delete income or expense transactions
-- Dynamic and responsive transaction table
-- Persistent data storage with **localStorage**
-- Structured multi-page routing with **React Router**
+  
+- Add, edit, and delete transactions with a smooth modal experience
+- Automatic categorization: Income vs Expense
+- Real-time summary tables:
+  - All-time totals
+  - Current month overview
+  - Previous month comparison
+- Beautiful interactive charts:
+  - Line chart (monthly trend)
+  - Bar chart (income vs expense comparison)
+  - Doughnut chart (expense/income ratio)  
+- Responsive design – works perfectly on mobile and desktop
+- Clean, reusable components and utility functions
+- Structured multi-page routing with **React Router**  
+- Zero backend – all data stored in browser's localStorage (via Context API) 
 - Clean and consistent code quality ensured by **ESLint** and **Prettier**
 
 ### Built With
@@ -22,3 +30,24 @@ The focus of this project is on clean architecture, maintainable code, and pract
 - **CSS Modules / Native CSS**
 - **React Router**
 - **ESLint** and **Prettier**
+
+  
+## Getting Started
+
+### Prerequisites
+- Node.js 
+- npm
+
+## Installation & Running the App
+
+### 1. Clone the repository
+git clone https://github.com/fardin-farrokhzad/Expense-Tracker.git
+
+### 2. Go into the project folder
+cd Expense-Tracker
+
+### 3. Install dependencies
+npm install
+
+### 4. Start the server
+npm run dev
