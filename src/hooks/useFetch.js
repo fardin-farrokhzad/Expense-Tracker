@@ -33,7 +33,6 @@ export function useFetch(url) {
   }, [url]);
 
   async function postData(postBody) {
-    setLoading(true);
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -48,8 +47,6 @@ export function useFetch(url) {
     } catch (err) {
       setError(err);
       throw err;
-    } finally {
-      setLoading(false);
     }
   }
 
