@@ -69,7 +69,15 @@ function TransactionModal({
         </div>
 
         {/* Form */}
-        <form className={styles.form} action={handleSubmit}>
+        <form
+          className={styles.form}
+          action='#'
+          onSubmit={e => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            handleSubmit(formData);
+          }}
+        >
           {/* Date */}
           <label className={`${styles.label} ${styles.date}`}>
             تاریخ
