@@ -23,7 +23,7 @@
     "@babel/eslint-parser": "^7.28.4",
     "@eslint/js": "^9.36.0",
     "@vitejs/plugin-react": "^5.0.4",
-    "eslint": "^9.37.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
