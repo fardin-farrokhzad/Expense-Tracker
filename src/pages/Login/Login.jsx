@@ -27,22 +27,24 @@ function Login() {
   }
 
   return (
-    <form className={styles.login__form} action={loginAction}>
-      <Logo className={styles.login__logo} />
-      <span className={error ? styles.show : styles.error}>
-        ایمیل یا رمز ورود اشتباه است!
-      </span>
-      <div className={styles.login__input__wrapper}>
-        <label htmlFor='email'>ایمیل</label>
-        <input name='email' type='email' required />
-      </div>
-      <div className={styles.login__input__wrapper}>
-        <label htmlFor='password'>رمز ورود</label>
-        <input name='password' type='password' required />
-      </div>
+    <div className={styles.login__wrapper}>
+      <form className={styles.login__form} action={loginAction}>
+        <Logo className={styles.login__logo} />
+        <span className={error ? styles.show : styles.error}>
+          ایمیل یا رمز ورود اشتباه است!
+        </span>
+        <div className={styles.login__input__wrapper}>
+          <label htmlFor='email'>ایمیل</label>
+          <input name='email' type='email' required />
+        </div>
+        <div className={styles.login__input__wrapper}>
+          <label htmlFor='password'>رمز ورود</label>
+          <input name='password' type='password' required />
+        </div>
 
-      <button type='submit'>ورود</button>
-    </form>
+        <button type='submit'>ورود</button>
+      </form>
+    </div>
   );
 }
 
