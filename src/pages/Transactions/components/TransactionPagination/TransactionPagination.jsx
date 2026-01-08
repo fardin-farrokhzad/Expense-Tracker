@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './TransactionPagination.module.css';
+import ArrowRight from '/src/assets/svg/outline/arrowRight.svg?react';
+import ArrowLeft from '/src/assets/svg/outline/arrowLeft.svg?react';
 
 function TransactionPagination({ totalPages = 1 }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,7 +55,7 @@ function TransactionPagination({ totalPages = 1 }) {
         aria-label='صفحه قبل'
         disabled={prevDisabled}
       >
-        {'<'}
+        <ArrowRight className={styles.arrow} />
       </button>
 
       {pages.map(p => (
@@ -73,7 +75,7 @@ function TransactionPagination({ totalPages = 1 }) {
         aria-label='صفحه بعد'
         disabled={nextDisabled}
       >
-        {'>'}
+        <ArrowLeft className={styles.arrow} />
       </button>
     </div>
   );

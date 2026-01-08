@@ -56,27 +56,6 @@
   color: var(--neutral-dark-2);
 }
 
-/* Full clickable area for calendar picker */
-.from input[type='date']::-webkit-calendar-picker-indicator,
-.to input[type='date']::-webkit-calendar-picker-indicator {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  color: transparent;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 3;
-}
-
-/* Hide Firefox clear button */
-.from input[type='date']::-moz-clear,
-.to input[type='date']::-moz-clear {
-  display: none;
-}
-
 .order select {
   padding: 8px 12px;
   border: 1px solid var(--neutral-soft-grey-1);
@@ -116,4 +95,15 @@ label {
     flex-grow: 1;
     width: auto;
   }
+}
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+input[type='date'] {
+  -moz-appearance: textfield;
+  position: relative;
+  z-index: 2;
+  background: transparent;
 }

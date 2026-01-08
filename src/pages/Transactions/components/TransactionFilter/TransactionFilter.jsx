@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import styles from './TransactionFilter.module.css';
 
 function TransactionFilter() {
@@ -30,11 +30,14 @@ function TransactionFilter() {
           type='text'
           id='fromDate'
           name='fromDate'
+          autoComplete='off'
           placeholder='انتخاب کنید'
           value={from}
           onChange={e => updateParam('from', e.target.value)}
-          onFocus={e => (e.target.type = 'date')}
-          onBlur={e => (e.target.type = 'text')}
+          onClick={e => {
+            e.target.type = 'date';
+            e.currentTarget.showPicker();
+          }}
         />
       </div>
       <div className={styles.to}>
@@ -43,11 +46,14 @@ function TransactionFilter() {
           type='text'
           id='toDate'
           name='toDate'
+          autoComplete='off'
           placeholder='انتخاب کنید'
           value={to}
           onChange={e => updateParam('to', e.target.value)}
-          onFocus={e => (e.target.type = 'date')}
-          onBlur={e => (e.target.type = 'text')}
+          onClick={e => {
+            e.target.type = 'date';
+            e.currentTarget.showPicker();
+          }}
         />
       </div>
       <div className={styles.order}>

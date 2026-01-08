@@ -87,6 +87,7 @@ function TransactionModal({
                 name='date'
                 className={styles.input}
                 defaultValue={defaultValues.date}
+                onClick={e => e.currentTarget.showPicker()}
                 required
                 disabled={isSubmitting}
               />
