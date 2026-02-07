@@ -34,10 +34,6 @@ function TransactionFilter() {
           placeholder='انتخاب کنید'
           value={from}
           onChange={e => updateParam('from', e.target.value)}
-          onClick={e => {
-            e.target.type = 'date';
-            e.currentTarget.showPicker();
-          }}
         />
       </div>
       <div className={styles.to}>
@@ -50,10 +46,6 @@ function TransactionFilter() {
           placeholder='انتخاب کنید'
           value={to}
           onChange={e => updateParam('to', e.target.value)}
-          onClick={e => {
-            e.target.type = 'date';
-            e.currentTarget.showPicker();
-          }}
         />
       </div>
       <div className={styles.order}>

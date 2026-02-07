@@ -83,11 +83,10 @@ function TransactionModal({
             تاریخ
             <div className={styles.input__wrapper}>
               <input
-                type='date'
+                type='text'
                 name='date'
                 className={styles.input}
                 defaultValue={defaultValues.date}
-                onClick={e => e.currentTarget.showPicker()}
                 required
                 disabled={isSubmitting}
               />
